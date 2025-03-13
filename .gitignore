@@ -7,3 +7,8 @@ Thumbs.db
 *~
 *.out
 target
+
+!PROJECT
+!PROBLEM
+!SOLUTION
+!TESTSET
