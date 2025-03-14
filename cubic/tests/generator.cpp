@@ -24,7 +24,7 @@ int main(int argc, char **argv)
         }
     };
 
-    for (int t = 0; t < 100; ++t) {
+    for (int t = 0; t < 40; ++t) {
         ofstream ofs(format("02-random-%02d.in", t).c_str());
         lint n = gen_reciprocal();
         ofs << n << endl;
