@@ -1,4 +1,4 @@
-#! /usr/local/bin/python3
+#! /usr/bin/env python
 
 def cubic_sum(l: int, r: int = None):
     # cubic sum of [i, r) or [0, l)
@@ -13,7 +13,10 @@ def solve(n: int):
     for w in range(1, n + 1):
         if cubic_sum(1, w + 1) > n:
             break
-        l = bs.bisect_left(range(n + 1), n, lambda l: cubic_sum(l, l + w), lo=1)
+        r = 1
+        while cubic_sum(r, r + w) <= n:
+            r *= 2
+        l = bs.bisect_left(range(r + 1), n, key=lambda l: cubic_sum(l, l + w), lo=1)
         if cubic_sum(l, l + w) == n:
             ans.append((l, l + w - 1))
     ans.sort()
