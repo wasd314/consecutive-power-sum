@@ -1,4 +1,4 @@
-#! python
+#! /usr/local/bin/python3
 
 def solve(n: int):
     cube = []
@@ -28,6 +28,7 @@ if __name__ == "__main__":
     n = int(input())
     ans = solve(n)
     ans.sort()
+    print(len(ans))
     for t in ans:
         print(*t)
 
