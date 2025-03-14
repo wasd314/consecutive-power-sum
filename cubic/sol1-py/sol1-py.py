@@ -22,12 +22,12 @@ def solve(n: int):
         r = right.get(acc[l] + n, -1)
         if r != -1:
             ans.append((l, r))
+    ans.sort()
     return ans
 
 if __name__ == "__main__":
     n = int(input())
     ans = solve(n)
-    ans.sort()
     print(len(ans))
     for t in ans:
         print(*t)
