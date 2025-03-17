@@ -2,7 +2,7 @@
 
 まず，解の候補を絞りましょう．$(L, R)$ が解であるとき，
 $$
-R^3 \le \sum_{k = L}^R k^3 = S(L, R) = N
+R^3 \le \sum_{i = L}^R i^3 = S(L, R) = N
 $$
 より $L \le R \le N^{1/3}$ です．よって $M \coloneqq \lfloor N^{1/3} \rfloor$ とおき，数列 $A = (A_1, A_2, \dots, A_M)$ を $A_i \coloneqq i^3$ で定めると，問題は「数列 $A$ の区間和が $N$ になる区間を列挙せよ」と言い換えることができます．
 
