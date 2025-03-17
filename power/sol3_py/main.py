@@ -14,6 +14,21 @@ def power_sum(e: int, l: int, r: int = None):
 
 import bisect as bs
 
+def solve_2(n: int):
+    ans = []
+    for w in range(1, n + 1):
+        if power_sum(2, 1, w + 1) > n:
+            break
+        if 6 * n % w:
+            continue
+        r = 1
+        while power_sum(2, r, r + w) <= n:
+            r *= 2
+        l = bs.bisect_left(range(r + 1), n, key=lambda l: power_sum(2, l, l + w), lo=1)
+        if power_sum(2, l, l + w) == n:
+            ans.append((2, l, l + w - 1))
+    return ans
+
 def solve_3(n: int):
     ans = []
     for w in range(1, n + 1):
@@ -30,7 +45,7 @@ def solve_3(n: int):
     return ans
 
 def solve_e(n: int, e: int):
-    if n < 1 + 2**e:
+    if n < 2**e:
         return []
     power = []
     for i in range(n + 1):
@@ -57,6 +72,7 @@ def solve_e(n: int, e: int):
 
 def solve(n: int):
     ans = []
+    ans.extend(solve_2(n))
     ans.extend(solve_3(n))
     for e in range(4, 70):
         ans.extend(solve_e(n, e))
