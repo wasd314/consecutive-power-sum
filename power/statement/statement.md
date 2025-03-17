@@ -43,27 +43,29 @@ $E_C\ L_C\ R_C$
 
 # サンプル
 
-{{ import_sample_input(file="../rime-out/tests/00-sample-00.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-00.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-2024.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2024.diff") }}
 
-次が成り立ちます．
-- $S(3, 1, 9) = 1^3 + 2^3 + 3^3 + 4^3 + 5^3 + 6^3 + 7^3 + 8^3 + 9^3 = 2025$
+次式が成り立ちます．
+- $S(3, 2, 9) = 2^3 + 3^3 + 4^3 + 5^3 + 6^3 + 7^3 + 8^3 + 9^3 = 2024$
 
-
-{{ import_sample_input(file="../rime-out/tests/00-sample-01.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-01.diff") }}
-
-解が1つもないこともあります．
+$(3, 2, 9)$ は唯一の解です．
 
 
-{{ import_sample_input(file="../rime-out/tests/00-sample-02.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-02.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-2025.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2025.diff") }}
 
 解が複数あることもあります．$L = R$ でもよいことに注意してください．
 
-以下が共に成り立ちます．
-- $S(3, 1, 8) = 1^3 + 2^3 + 3^3 + 4^3 + 5^3 + 6^3 + 7^3 + 8^3 = 1296$
-- $S(4, 6, 6) = 6^4 = 1296$
+次式が成り立ちます．
+- $S(2, 45, 45) = 45^2 = 2025$
+- $S(3, 1, 9) = 1^3 + 2^3 + 3^3 + 4^3 + 5^3 + 6^3 + 7^3 + 8^3 + 9^3 = 2025$
 
-$(3, 1, 8)$ より $(4, 6, 6)$ の方が辞書順で小さいので，この順に出力してください．
+$(3, 1, 9)$ より $(2, 45, 45)$ の方が辞書順で小さいので，この順に出力してください．
+
+
+{{ import_sample_input(file="../rime-out/tests/00-sample-2026.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2026.diff") }}
+
+解が1つもないこともあります．
 
