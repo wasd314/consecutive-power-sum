@@ -8,4 +8,4 @@ import e3
 import utility
 
 if __name__ == "__main__":
-    utility.answer_cubic_with(e3.r31_bs_div_1)
+    utility.answer_cubic_with(e3.r30_two_pointer)
