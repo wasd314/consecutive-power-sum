@@ -2,11 +2,12 @@
 
 ## Input generators.
 #c_generator(src='generator.c')
-cxx_generator(src='generator.cpp', flags=["-std=c++23"], dependency=['testlib.h'])
+#cxx_generator(src='generator.cpp', flags=["-std=c++23"], dependency=['testlib.h'])
 #java_generator(src='Generator.java', encoding='UTF-8', mainclass='Generator')
 #rust_generator(src='generator.rs')
 #go_generator(src='generator.go')
 #script_generator(src='generator.pl')
+script_generator(src='generator.py')
 
 ## Input validators.
 #c_validator(src='validator.c')
