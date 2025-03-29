@@ -26,7 +26,7 @@ $N$
 
 # 出力
 
-問題文の条件を満たす2つ組が全部で $C$ 組あり，辞書順で小さい方から順に
+問題文の条件を満たす2つ組を解と呼ぶことにします．解は全部で $C$ 個あり，それらが辞書順で小さい方から順に
 $$
 (L_1, R_1), (L_2, R_2), \dots, (L_C, R_C)
 $$
@@ -42,21 +42,21 @@ $L_C\ R_C$
 
 # サンプル
 
-{{ import_sample_input(file="../rime-out/tests/00-sample-2025.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-2025.diff") }}
+{{ import_sample_input(file="../rime-out/tests/000-sample-2025.in") }}
+{{ import_sample_output(file="../rime-out/tests/000-sample-2025.diff") }}
 
-次が成り立ち，$(1, 9)$ が唯一の解です．
+次が成り立つため $(1, 9)$ は解であり，またこれ以外の解はありません．
 - $S(1, 9) = 1^3 + 2^3 + 3^3 + 4^3 + 5^3 + 6^3 + 7^3 + 8^3 + 9^3 = 2025$
 
 
-{{ import_sample_input(file="../rime-out/tests/00-sample-2026.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-2026.diff") }}
+{{ import_sample_input(file="../rime-out/tests/000-sample-2026.in") }}
+{{ import_sample_output(file="../rime-out/tests/000-sample-2026.diff") }}
 
 解が1つもないこともあります．
 
 
-{{ import_sample_input(file="../rime-out/tests/00-sample-216.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-216.diff") }}
+{{ import_sample_input(file="../rime-out/tests/000-sample-216.in") }}
+{{ import_sample_output(file="../rime-out/tests/000-sample-216.diff") }}
 
 解が複数あることもあります．$L = R$ でもよいことに注意してください．
 

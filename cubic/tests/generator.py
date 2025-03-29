@@ -40,8 +40,8 @@ def dump_cases(prefix, cases: list, sort=True):
         with open(f"{prefix}-{i:02}.in", "w") as f:
             print(n, file=f)
 
-dump_cases("01-random", gen_cases(15, gen_have_sol))
-dump_cases("02-random", gen_cases(15, gen_reciprocal))
+dump_cases("001-random", gen_cases(15, gen_have_sol))
+dump_cases("002-random", gen_cases(15, gen_reciprocal))
 
 
 # small
@@ -61,6 +61,6 @@ cases = [[] for _ in range(max(sol_count.values()) + 1)]
 for n, l in sol_count.items():
     cases[l].append(n)
 for l, ns in enumerate(cases):
-    dump_cases(f"1{l}-handmade", ns)
+    dump_cases(f"1{l:02}-handmade", ns)
 
 
