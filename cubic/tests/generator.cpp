@@ -46,21 +46,23 @@ int main(int argc, char **argv)
         }
     };
 
-    auto cases01 = views::repeat(0, 20) | views::transform([&](auto) { return gen_have_sol(); }) | ranges::to<vector<lint>>();
-    ranges::sort(cases01);
-    auto cases02 = views::repeat(0, 20) | views::transform([&](auto) { return gen_reciprocal(); }) | ranges::to<vector<lint>>();
-    ranges::sort(cases02);
-
-    for (auto [i, n] : cases01 | views::enumerate) {
-        int t = i;
-        ofstream ofs(format("01-random-%02d.in", t).c_str());
-        ofs << n << endl;
-        ofs.close();
-    }
-    for (auto [i, n] : cases02 | views::enumerate) {
-        int t = i;
-        ofstream ofs(format("02-random-%02d.in", t).c_str());
-        ofs << n << endl;
-        ofs.close();
-    }
+    auto gen_cases = [](int num, auto f) {
+        auto cases = views::repeat(0, num) | views::transform([&](auto) { return f(); }) | ranges::to<vector<lint>>();
+        return cases;
+    };
+    auto dump_cases = [](string prefix, vector<lint> cases, bool sort = true) {
+        if (sort) ranges::sort(cases);
+        for (auto [i, n] : cases | views::enumerate) {
+            int t = i;
+            ofstream ofs(format("%s-%02d.in", prefix.c_str(), t).c_str());
+            ofs << n << endl;
+            ofs.close();
+        }
+    };
+    dump_cases("01-random"s, gen_cases(15, gen_have_sol));
+    dump_cases("02-random"s, gen_cases(15, gen_reciprocal));
+    dump_cases("10-handmade"s, {2, 5, 7, 999999'999999'999967, 999999'999999'999989});
+    dump_cases("11-handmade"s, {1, 8, 9, 999693664352352684, 999844743676712327, 999999'999043'722144, 999999'999136'704159, 1'000000'000000'000000});
+    dump_cases("12-handmade"s, {8000, 999116'559748'794375, 999563'958497'309400});
+    dump_cases("13-handmade"s, {23295'638016});
 }
