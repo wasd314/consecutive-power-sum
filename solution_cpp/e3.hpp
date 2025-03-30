@@ -49,7 +49,7 @@ namespace wasd314::e3
     {
         using namespace std::literals::string_literals;
 
-        auto f = [=](lint n, int) {
+        auto f = [](lint n, int) {
             using std::vector;
             vector<solution_t> ans;
             lint prev_l = n;
@@ -57,13 +57,12 @@ namespace wasd314::e3
                 if (power_sum(3, 1, w + 1) > n) break;
                 if (only_div && (4 * n % w) != 0) continue;
                 lint l;
-                if (from_prev) {
+                if (from_prev && w != 1) {
                     lint dl = 1;
-                    while (dl < prev_l && power_sum(3, prev_l - dl, prev_l - dl + w) >= n) {
+                    while (dl < prev_l && power_sum(3, prev_l - dl, prev_l - dl + w) > n) {
                         dl <<= 1;
                     }
                     l = bisect_left(std::max(0ll, prev_l - dl), prev_l + 1, [&](lint li) { return power_sum(3, li, li + w) >= n; });
-                    prev_l = l;
                 } else {
                     lint r = 1;
                     while (power_sum(3, r, r + w) <= n) {
@@ -71,6 +70,7 @@ namespace wasd314::e3
                     }
                     l = bisect_left(0, r + 1, [&](lint li) { return power_sum(3, li, li + w) >= n; });
                 }
+                prev_l = l;
                 if (power_sum(3, l, l + w) == n) {
                     ans.emplace_back(3, l, l + w - 1);
                 }
