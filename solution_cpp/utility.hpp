@@ -30,24 +30,26 @@ namespace wasd314
     };
     using wrapped_solver = std::reference_wrapper<named_solver_base>;
     // 本体の関数 f の型 T の差異を named_solver_base で吸収し，
-    // std::reference_wrapper に包むことで f を実行している
+    // std::reference_wrapper に包むことで f を実行し分けている
 
     // e-th power sum of [l, r) or [0, l)
     __int128_t power_sum(int e, __int128_t l, __int128_t r = -10)
     {
-        if (r != -10) {
-            return power_sum(e, r) - power_sum(e, l);
+        if (r == -10) {
+            r = l;
+            l = 0;
         }
+        __int128_t w = r - l;
         if (e == 1) {
-            return l * (l - 1) / 2;
+            return l * w + w * (w - 1) / 2;
         } else if (e == 2) {
-            return l * (l - 1) * (2 * l - 1) / 6;
+            return l * w * (l + w - 1) + w * (w - 1) / 2 * (2 * w - 1) / 3;
         } else if (e == 3) {
-            return l * (l - 1) / 2 * l * (l - 1) / 2;
+            return w * (2 * l + w - 1) / 2 * l * (l + w - 1) + w * w * (w - 1) / 2 * (2 * l + w - 1) / 2;
         } else if (e == 4) {
-            return l * (l - 1) * (2 * l - 1) * (3 * l * l - 3 * l - 1) / 30;
+            return l * w * (l + w - 1) * (l * (l + w - 1) + w * (w - 1)) + w * (w - 1) / 2 * (2 * w - 1) / 3 * (3 * w * (w - 1) - 1) / 5;
         } else if (e == 5) {
-            return (l - 1) * l / 2 * (l - 1) * l / 2 * (2 * (l - 1) * l - 1) / 3;
+            return w * (2 * l + w - 1) / 2 * (l * l * l * l + (2 * l + w) * (w - 1) / 2 * (2 * l * (3 * l + 2 * w - 1) + 2 * w * (w - 1) - 1) / 3);
         } else {
             return 0;
         }
