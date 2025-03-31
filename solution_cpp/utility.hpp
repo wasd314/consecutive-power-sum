@@ -5,6 +5,7 @@
 #include <iostream>
 #include <numeric>
 #include <ranges>
+#include <sstream>
 #include <tuple>
 #include <vector>
 
@@ -41,10 +42,19 @@ namespace wasd314
     //
     // それぞれ解いて結合する
     struct combined_solver {
+        std::string name;
         std::vector<wrapped_solver> fs;
 
-        template <typename... T>
-        combined_solver(T&&... args) : fs{std::forward<T>(args)...}
+        combined_solver(std::initializer_list<wrapped_solver> args) : fs{args}
+        {
+            if (fs.empty()) return;
+            name = fs[0].get().name;
+            for (auto f : fs | std::views::drop(1)) {
+                name += "-";
+                name += f.get().name;
+            }
+        }
+        combined_solver(std::string name, std::initializer_list<wrapped_solver> args) : name(name), fs{args}
         {
         }
 

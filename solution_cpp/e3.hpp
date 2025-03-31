@@ -49,7 +49,7 @@ namespace wasd314::e3
     template <bool only_div, bool from_prev>
     auto r31_bs()
     {
-        using namespace std::literals::string_literals;
+        using std::literals::operator""s;
 
         auto f = [](lint n, int) {
             using std::vector;
