@@ -69,6 +69,14 @@ namespace wasd314
         }
     }
 
+    // `sols.size()` を N として，
+    // - E == `E_FIRST` + 0 を `sols[0]` で
+    // - E == `E_FIRST` + 1 を `sols[1]` で
+    // - ...
+    // - E == `E_FIRST` + N - 2 を `sols[N - 2]` で
+    // - E >= `E_FIRST` + N - 1 を `sols[N - 1]` で
+    //
+    // それぞれ解いて結合する
     template <int E_FIRST>
     requires(E_FIRST == 1 || E_FIRST == 2)
     void answer_power_with(const std::vector<wrapped_solver>& sols)
