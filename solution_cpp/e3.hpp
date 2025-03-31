@@ -13,6 +13,8 @@
 
 namespace wasd314::e3
 {
+    auto dummy = named_solver([](lint, int) { return std::vector<solution_t>(); }, "dummy");
+
     std::vector<solution_t> r30_two_pointer_(lint n, int)
     {
         using std::vector;

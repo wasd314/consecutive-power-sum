@@ -32,6 +32,39 @@ namespace wasd314
     // 本体の関数 f の型 T の差異を named_solver_base で吸収し，
     // std::reference_wrapper に包むことで f を実行し分けている
 
+    // `fs.size()` を N として，
+    // - E == `E_FIRST` + 0 を `fs[0]` で
+    // - E == `E_FIRST` + 1 を `fs[1]` で
+    // - ...
+    // - E == `E_FIRST` + N - 2 を `fs[N - 2]` で
+    // - E >= `E_FIRST` + N - 1 を `fs[N - 1]` で
+    //
+    // それぞれ解いて結合する
+    struct combined_solver {
+        std::vector<wrapped_solver> fs;
+
+        template <typename... T>
+        combined_solver(T&&... args) : fs{std::forward<T>(args)...}
+        {
+        }
+
+        std::vector<solution_t> operator()(lint n, int e_first) const
+        {
+            std::vector<solution_t> ans;
+
+            int count = fs.size();
+            for (int i = 0; i < count; ++i) {
+                auto ansi = fs[i](n, e_first + i);
+                ans.insert(ans.end(), ansi.begin(), ansi.end());
+            }
+            for (int e = e_first + count; e < 64; ++e) {
+                auto ansi = fs[count - 1](n, e);
+                ans.insert(ans.end(), ansi.begin(), ansi.end());
+            }
+            return ans;
+        }
+    };
+
     // e-th power sum of [l, r) or [0, l)
     __int128_t power_sum(int e, __int128_t l, __int128_t r = -10)
     {
@@ -69,31 +102,12 @@ namespace wasd314
         }
     }
 
-    // `sols.size()` を N として，
-    // - E == `E_FIRST` + 0 を `sols[0]` で
-    // - E == `E_FIRST` + 1 を `sols[1]` で
-    // - ...
-    // - E == `E_FIRST` + N - 2 を `sols[N - 2]` で
-    // - E >= `E_FIRST` + N - 1 を `sols[N - 1]` で
-    //
-    // それぞれ解いて結合する
     template <int E_FIRST>
-    requires(E_FIRST == 1 || E_FIRST == 2)
-    void answer_power_with(const std::vector<wrapped_solver>& sols)
+    void answer_power_with(const combined_solver& f)
     {
         lint n;
         std::cin >> n;
-        std::vector<solution_t> ans;
-
-        int count = sols.size();
-        for (int i = 0; i < count - 1; ++i) {
-            auto ansi = sols[i](n, E_FIRST + i);
-            ans.insert(ans.end(), ansi.begin(), ansi.end());
-        }
-        for (int e = E_FIRST + count - 1; e < 64; ++e) {
-            auto ansi = sols[count - 1](n, e);
-            ans.insert(ans.end(), ansi.begin(), ansi.end());
-        }
+        std::vector<solution_t> ans = f(n, E_FIRST);
         std::cout << ans.size() << std::endl;
         for (auto [e, l, r] : ans) {
             std::cout << e << ' ' << l << ' ' << r << std::endl;
