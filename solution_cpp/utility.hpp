@@ -3,6 +3,7 @@
 
 #include <concepts>
 #include <iostream>
+#include <limits>
 #include <numeric>
 #include <ranges>
 #include <sstream>
@@ -140,6 +141,15 @@ namespace wasd314
             }
         }
         return hi;
+    }
+
+    lint saturating_pow(lint a, int e)
+    {
+        lint ans = 1;
+        for (int i = 0; i < e; ++i) {
+            if (__builtin_smulll_overflow(ans, a, &ans)) return std::numeric_limits<lint>::max();
+        }
+        return ans;
     }
 }  // namespace wasd314
 
