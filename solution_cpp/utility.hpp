@@ -130,6 +130,7 @@ namespace wasd314
     }
     lint bisect_left(lint lo, lint hi, T pred)
     {
+        if (pred(lo)) return lo;
         while (lo + 1 < hi) {
             lint mi = std::midpoint(lo, hi);
             if (pred(mi)) {

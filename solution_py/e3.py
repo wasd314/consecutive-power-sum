@@ -91,7 +91,7 @@ def r31_bs(only_div: bool, from_prev: bool):
                 continue
             if from_prev:
                 dl = 1
-                while dl < prev_l and power_sum(3, prev_l - dl, prev_l - dl + w) > n:
+                while dl < prev_l and power_sum(3, prev_l - dl, prev_l - dl + w) >= n:
                     dl <<= 1
                 l = bs.bisect_left(range(prev_l + 1), n, key=lambda l: power_sum(3, l, l + w), lo=max(0, prev_l - dl))
                 prev_l = l

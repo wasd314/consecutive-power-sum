@@ -61,7 +61,7 @@ namespace wasd314::e3
                 lint l;
                 if (from_prev && w != 1) {
                     lint dl = 1;
-                    while (dl < prev_l && power_sum(3, prev_l - dl, prev_l - dl + w) > n) {
+                    while (dl < prev_l && power_sum(3, prev_l - dl, prev_l - dl + w) >= n) {
                         dl <<= 1;
                     }
                     l = bisect_left(std::max(0ll, prev_l - dl), prev_l + 1, [&](lint li) { return power_sum(3, li, li + w) >= n; });
@@ -81,7 +81,7 @@ namespace wasd314::e3
             // std::ranges::sort(ans);
             return ans;
         };
-        auto name = "r31_bs_"s + (only_div ? "div"s : "all"s) + (from_prev ? "pre"s : "1"s);
+        auto name = "r31_bs_"s + (only_div ? "div"s : "all"s) + "_" + (from_prev ? "pre"s : "1"s);
         return named_solver(f, name);
     }
     auto r31_bs_all_1 = r31_bs<false, false>();
