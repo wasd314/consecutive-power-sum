@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "utility.hpp"
+#include "ee.hpp"
 
 namespace wasd314::e3
 {
@@ -46,55 +47,12 @@ namespace wasd314::e3
     }
     auto r30_two_pointer = named_solver(r30_two_pointer_, "r30_two_pointer");
 
-    template <bool only_div, bool from_prev>
-    auto r31_bs()
-    {
-        using std::literals::operator""s;
-
-        auto f = [](lint n, int) {
-            using std::vector;
-            vector<solution_t> ans;
-            lint prev_l = n;
-            for (lint w = 1;; ++w) {
-                if (power_sum(3, 1, w + 1) > n) break;
-                if (only_div && (4 * n % w) != 0) continue;
-                lint l;
-                if (from_prev && w != 1) {
-                    lint dl = 1;
-                    while (dl < prev_l && power_sum(3, prev_l - dl, prev_l - dl + w) >= n) {
-                        dl <<= 1;
-                    }
-                    l = bisect_left(std::max(0ll, prev_l - dl), prev_l + 1, [&](lint li) { return power_sum(3, li, li + w) >= n; });
-                } else {
-                    lint r = 1;
-                    while (power_sum(3, r, r + w) <= n) {
-                        r <<= 1;
-                    }
-                    l = bisect_left(0, r + 1, [&](lint li) { return power_sum(3, li, li + w) >= n; });
-                }
-                prev_l = l;
-                if (power_sum(3, l, l + w) == n) {
-                    ans.emplace_back(3, l, l + w - 1);
-                }
-            }
-            std::ranges::reverse(ans);
-            // std::ranges::sort(ans);
-            return ans;
-        };
-        auto name = "r31_bs_"s + (only_div ? "div"s : "all"s) + "_" + (from_prev ? "pre"s : "1"s);
-        return named_solver(f, name);
-    }
-    auto r31_bs_all_1 = r31_bs<false, false>();
-    auto r31_bs_div_1 = r31_bs<true, false>();
-    auto r31_bs_all_pre = r31_bs<false, true>();
-    auto r31_bs_div_pre = r31_bs<true, true>();
-
     std::vector<wrapped_solver> solvers{
         r30_two_pointer,
-        r31_bs_all_1,
-        r31_bs_div_1,
-        r31_bs_all_pre,
-        r31_bs_div_pre,
+        ee::re1_bs_all_1,
+        ee::re1_bs_div_1,
+        ee::re1_bs_all_pre,
+        ee::re1_bs_div_pre,
     };
 }  // namespace wasd314::e3
 
