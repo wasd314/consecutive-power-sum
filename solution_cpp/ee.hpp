@@ -7,6 +7,38 @@
 
 namespace wasd314::ee
 {
+    std::vector<solution_t> re0_two_pointer_(lint n, int e)
+    {
+        using std::vector;
+        vector<lint> pows;
+        for (lint i = 0;; ++i) {
+            lint ip = saturating_pow(i, e);
+            if (ip > n) break;
+            pows.push_back(ip);
+        }
+        int c = pows.size();
+        vector<solution_t> ans;
+
+        int r = 1;
+        lint current_sum = 0;
+        for (int l = 1; l < c; ++l) {
+            while (r < c && current_sum + pows[r] <= n) {
+                current_sum += pows[r];
+                r++;
+            }
+            if (current_sum == n) {
+                ans.emplace_back(e, l, r - 1);
+            }
+            if (l < r) {
+                current_sum -= pows[l];
+            }
+        }
+        std::ranges::sort(ans);
+        return ans;
+    }
+    auto re0_two_pointer = named_solver(re0_two_pointer_, "re0_two_pointer");
+
+
     // min D s.t. W divides [D * S(e, L, L+W-1)] for all L & W.
     const int enough_denom[] = {1, 2, 6, 2, 30, 2, 42, 2, 30, 2, 66, 2, 2730, 2, 6, 2, 510, 2, 798, 2, 330, 2, 138, 2, 2730, 2, 6, 2, 870, 2, 14322, 2, 510, 2, 6, 2, 1919190, 2, 6, 2, 13530, 2, 1806, 2, 690, 2, 282, 2, 46410, 2, 66, 2, 1590, 2, 798, 2, 870, 2, 354, 2, 56786730, 2, 6, 2, 510, 2, 64722, 2, 30, 2, 4686, 2, 140100870, 2, 6, 2, 30, 2, 3318, 2, 230010, 2, 498, 2, 3404310, 2, 6, 2, 61410, 2, 272118, 2, 1410, 2, 6, 2, 4501770, 2, 6, 2};
 
