@@ -3,5 +3,5 @@
 
 int main()
 {
-    wasd314::answer_cubic_with(wasd314::e3::r30_two_pointer);
+    wasd314::answer_cubic_with(wasd314::ee::re0_two_pointer);
 }
