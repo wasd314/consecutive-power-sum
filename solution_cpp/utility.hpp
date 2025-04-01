@@ -141,6 +141,80 @@ namespace wasd314
         }
         return hi;
     }
+
+    // min D s.t. W divides [D * S(e, L, L+W-1)] for all L & W.
+    template <int E>
+    constexpr int enough_denom = 0;
+
+    // 変数テンプレートの部分特殊化 (C++23)
+    template <int E>
+    requires(E % 2 == 1)
+    constexpr int enough_denom<E> = 2;
+
+    template <>
+    constexpr int enough_denom<2> = 6;
+    template <>
+    constexpr int enough_denom<4> = 30;
+    template <>
+    constexpr int enough_denom<6> = 42;
+    template <>
+    constexpr int enough_denom<8> = 30;
+    template <>
+    constexpr int enough_denom<10> = 66;
+    template <>
+    constexpr int enough_denom<12> = 2730;
+    template <>
+    constexpr int enough_denom<14> = 6;
+    template <>
+    constexpr int enough_denom<16> = 510;
+    template <>
+    constexpr int enough_denom<18> = 798;
+    template <>
+    constexpr int enough_denom<20> = 330;
+    template <>
+    constexpr int enough_denom<22> = 138;
+    template <>
+    constexpr int enough_denom<24> = 2730;
+    template <>
+    constexpr int enough_denom<26> = 6;
+    template <>
+    constexpr int enough_denom<28> = 870;
+    template <>
+    constexpr int enough_denom<30> = 14322;
+    template <>
+    constexpr int enough_denom<32> = 510;
+    template <>
+    constexpr int enough_denom<34> = 6;
+    template <>
+    constexpr int enough_denom<36> = 1919190;
+    template <>
+    constexpr int enough_denom<38> = 6;
+    template <>
+    constexpr int enough_denom<40> = 13530;
+    template <>
+    constexpr int enough_denom<42> = 1806;
+    template <>
+    constexpr int enough_denom<44> = 690;
+    template <>
+    constexpr int enough_denom<46> = 282;
+    template <>
+    constexpr int enough_denom<48> = 46410;
+    template <>
+    constexpr int enough_denom<50> = 66;
+    template <>
+    constexpr int enough_denom<52> = 1590;
+    template <>
+    constexpr int enough_denom<54> = 798;
+    template <>
+    constexpr int enough_denom<56> = 870;
+    template <>
+    constexpr int enough_denom<58> = 354;
+    template <>
+    constexpr int enough_denom<60> = 56786730;
+    template <>
+    constexpr int enough_denom<62> = 6;
+    template <>
+    constexpr int enough_denom<64> = 510;
 }  // namespace wasd314
 
 #endif  // CONSECUTIVE_POWER_SUM_UTILITY
