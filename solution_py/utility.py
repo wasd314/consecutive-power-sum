@@ -23,13 +23,14 @@ def answer_cubic_with(solver):
     for sol in ans:
         print(*sol[1:])
 
-def answer_power_with(solvers: tuple, e_start: int):
-    """`e >= e_start` のケースを解答する"""
+def answer_power_with(args: tuple):
+    """`e >= args[0]` のケースを `args[1:]` で解答する"""
     n = int(input())
     ans = []
-    for e, solver in enumerate(solvers[:-1], e_start):
+    e_start, *solvers = args
+    for e, solver in enumerate(solvers, e_start):
         ans.extend(solver(n, e))
-    for e in range(len(solvers) + e_start - 1, 65):
+    for e in range(len(solvers) + e_start, 65):
         ans.extend(solvers[-1](n, e))
     print(len(ans))
     for sol in ans:
