@@ -1,6 +1,7 @@
 #ifndef CONSECUTIVE_POWER_SUM_UTILITY
 #define CONSECUTIVE_POWER_SUM_UTILITY 1
 
+#include <cassert>
 #include <concepts>
 #include <iostream>
 #include <limits>
@@ -42,6 +43,7 @@ namespace wasd314
     // - E >= `E_FIRST` + N - 1 を `fs[N - 1]` で
     //
     // それぞれ解いて結合する
+    template<int E_FIRST>
     struct combined_solver {
         std::string name;
         std::vector<wrapped_solver> fs;
@@ -59,16 +61,16 @@ namespace wasd314
         {
         }
 
-        std::vector<solution_t> operator()(lint n, int e_first) const
+        std::vector<solution_t> operator()(lint n) const
         {
             std::vector<solution_t> ans;
 
             int count = fs.size();
             for (int i = 0; i < count; ++i) {
-                auto ansi = fs[i](n, e_first + i);
+                auto ansi = fs[i](n, E_FIRST + i);
                 ans.insert(ans.end(), ansi.begin(), ansi.end());
             }
-            for (int e = e_first + count; e < 64; ++e) {
+            for (int e = E_FIRST + count; e < 64; ++e) {
                 auto ansi = fs[count - 1](n, e);
                 ans.insert(ans.end(), ansi.begin(), ansi.end());
             }
@@ -95,7 +97,7 @@ namespace wasd314
         } else if (e == 5) {
             return w * (2 * l + w - 1) / 2 * (l * l * l * l + (2 * l + w) * (w - 1) / 2 * (2 * l * (3 * l + 2 * w - 1) + 2 * w * (w - 1) - 1) / 3);
         } else {
-            return 0;
+            assert(("unsupportted e", false));
         }
     }
 
@@ -114,11 +116,11 @@ namespace wasd314
     }
 
     template <int E_FIRST>
-    void answer_power_with(const combined_solver& f)
+    void answer_power_with(const combined_solver<E_FIRST>& f)
     {
         lint n;
         std::cin >> n;
-        std::vector<solution_t> ans = f(n, E_FIRST);
+        std::vector<solution_t> ans = f(n);
         std::cout << ans.size() << std::endl;
         for (auto [e, l, r] : ans) {
             std::cout << e << ' ' << l << ' ' << r << std::endl;
