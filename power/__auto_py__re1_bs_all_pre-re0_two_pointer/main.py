@@ -1,4 +1,4 @@
-#! /usr/bin/env python
+#! /usr/bin/env pypy
 import sys
 from pathlib import Path
 sol = Path(__file__).resolve().parents[2] / "solution_py"
