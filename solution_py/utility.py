@@ -36,3 +36,18 @@ def answer_power_with(args: tuple):
     for sol in ans:
         print(*sol)
 
+def parse_range(size: int, line: str):
+    todo = set()
+    for arg in line.split(" "):
+        if arg == "-":
+            todo.update(range(size))
+        elif "-" in arg:
+            l, r = map(int, arg.split("-"))
+            l = max(l, 0)
+            r = min(r + 1, size)
+            todo.update(range(l, r))
+        else:
+            x = int(arg)
+            if 0 <= x < size:
+                todo.add(x)
+    return sorted(todo)
