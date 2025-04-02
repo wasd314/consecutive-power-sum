@@ -1,6 +1,7 @@
 #ifndef CONSECUTIVE_POWER_SUM_UTILITY
 #define CONSECUTIVE_POWER_SUM_UTILITY 1
 
+#include <algorithm>
 #include <cassert>
 #include <concepts>
 #include <iostream>
@@ -43,7 +44,7 @@ namespace wasd314
     // - E >= `E_FIRST` + N - 1 を `fs[N - 1]` で
     //
     // それぞれ解いて結合する
-    template<int E_FIRST>
+    template <int E_FIRST>
     struct combined_solver {
         std::string name;
         std::vector<wrapped_solver> fs;
@@ -152,6 +153,37 @@ namespace wasd314
             if (__builtin_smulll_overflow(ans, a, &ans)) return std::numeric_limits<lint>::max();
         }
         return ans;
+    }
+
+    std::vector<int> parse_range(int size, const std::string& line)
+    {
+        std::vector<int> todo;
+        for (auto sv : std::ranges::split_view(line, " ")) {
+            std::string arg(sv.begin(), sv.end());
+            auto pos = arg.find("-");
+            if (arg == "-") {
+                for (int e = 0; e < size; ++e) {
+                    todo.push_back(e);
+                }
+            } else if (pos != std::string::npos) {
+                int l = std::stoi(arg.substr(0, pos));
+                int r = std::stoi(arg.substr(pos + 1));
+                l = std::max(l, 0);
+                r = std::min(r + 1, size);
+                for (int e = l; e < r; ++e) {
+                    todo.push_back(e);
+                }
+            } else {
+                int e = std::stoi(arg);
+                if (0 <= e && e < size) {
+                    todo.push_back(e);
+                }
+            }
+        }
+        std::ranges::sort(todo);
+        auto dup = std::ranges::unique(todo);
+        todo.erase(dup.begin(), dup.end());
+        return todo;
     }
 }  // namespace wasd314
 
