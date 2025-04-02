@@ -9,7 +9,7 @@ import utility
 import random
 import bisect as bs
 
-random.seed("consecutive cubic sum")
+random.seed("consecutive power sum")
 
 MIN_N = 2
 MAX_N = 10**18
