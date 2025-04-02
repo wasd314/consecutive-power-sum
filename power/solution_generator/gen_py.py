@@ -24,7 +24,7 @@ def remove_prev():
 
 def gen(ty: str, i: int, processor: str):
     solver = solvers[ty][i]
-    name = "-".join(f.__name__ for f in solver[1:])
+    name = solver.name
     target_root = problem_root / f"{auto_prefix}{name}"
     os.makedirs(str(target_root), exist_ok=True)
     with open(str(template_root[ty] / "SOLUTION")) as src:

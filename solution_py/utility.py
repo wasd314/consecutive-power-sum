@@ -23,15 +23,25 @@ def answer_cubic_with(solver):
     for sol in ans:
         print(*sol[1:])
 
-def answer_power_with(args: tuple):
-    """`e >= args[0]` のケースを `args[1:]` で解答する"""
+class CombinedSolver:
+    def __init__(self, e_start: int, *solvers):
+        self.e_start = e_start
+        self.solvers = solvers
+        self.name = "-".join(f.__name__ for f in solvers)
+
+    def __call__(self, n: int):
+        e_start = self.e_start
+        solvers = self.solvers
+        ans = []
+        for e, solver in enumerate(solvers, e_start):
+            ans.extend(solver(n, e))
+        for e in range(len(solvers) + e_start, 65):
+            ans.extend(solvers[-1](n, e))
+        return ans
+
+def answer_power_with(solver: CombinedSolver):
     n = int(input())
-    ans = []
-    e_start, *solvers = args
-    for e, solver in enumerate(solvers, e_start):
-        ans.extend(solver(n, e))
-    for e in range(len(solvers) + e_start, 65):
-        ans.extend(solvers[-1](n, e))
+    ans = solver(n)
     print(len(ans))
     for sol in ans:
         print(*sol)
