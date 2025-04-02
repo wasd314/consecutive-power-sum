@@ -1,7 +1,9 @@
 def power_sum(e: int, l: int, r: int = None) -> int:
     """e-th power sum of [l, r) or [0, l)"""
     if r is not None:
-        return power_sum(e, r) - power_sum(e, l)
+        if 1 <= e <= 5:
+            return power_sum(e, r) - power_sum(e, l)
+        return sum(i**e for i in range(l, r))
     elif e == 1:
         return l * (l - 1) // 2
     elif e == 2:
