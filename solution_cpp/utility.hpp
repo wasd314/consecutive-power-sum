@@ -2,11 +2,13 @@
 #define CONSECUTIVE_POWER_SUM_UTILITY 1
 
 #include <algorithm>
+#include <bit>
 #include <cassert>
 #include <concepts>
 #include <iostream>
 #include <limits>
 #include <numeric>
+#include <random>
 #include <ranges>
 #include <sstream>
 #include <tuple>
@@ -128,6 +130,7 @@ namespace wasd314
         }
     }
 
+    // min i in [lo, hi) s.t. pred(i), or default = hi
     template <typename T>
     requires requires(T pred, lint l) {
         { pred(l) } -> std::same_as<bool>;
@@ -152,6 +155,121 @@ namespace wasd314
         for (int i = 0; i < e; ++i) {
             if (__builtin_smulll_overflow(ans, a, &ans)) return std::numeric_limits<lint>::max();
         }
+        return ans;
+    }
+
+    bool is_prime(lint n)
+    {
+        if (n < 2) return false;
+        for (lint p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) {
+            if (n == p) return true;
+            if (n % p == 0) return false;
+        }
+        if (n < 41 * 41) return true;
+        auto mul_mod = [&](lint x, lint y) -> lint {
+            return __int128_t(x) * y % n;
+        };
+        auto pow_mod = [&](lint x, lint e) {
+            lint p = 1;
+            while (e) {
+                if (e & 1) p = mul_mod(p, x);
+                x = mul_mod(x, x);
+                e >>= 1;
+            }
+            return p;
+        };
+        auto test_miller_rabin = [&](const std::vector<lint>& bases) {
+            int e = std::countr_zero((unsigned long long)(n - 1));
+            lint o = n >> e;
+            for (lint b : bases) {
+                lint x = pow_mod(b, o);
+                if (x == 1) continue;
+                for (int ei = 0; ei < e; ++ei) {
+                    lint y = mul_mod(x, x);
+                    if (y == 1) {
+                        if (x == n - 1) break;
+                        return false;
+                    }
+                    x = y;
+                    if (ei == e - 1) return false;
+                }
+            }
+            return true;
+        };
+        if (n < 2047) return test_miller_rabin({2});
+        if (n < 9080191) return test_miller_rabin({31, 73});
+        if (n < 4759123141) return test_miller_rabin({2, 7, 61});
+        if (n < 1122004669633) return test_miller_rabin({2, 13, 23, 1662803});
+        if (n < 3770579582154547) return test_miller_rabin({2, 880937, 2570940, 610386380, 4130785767});
+        return test_miller_rabin({2, 325, 9375, 28178, 450775, 9780504, 1795265022});
+    }
+
+    std::vector<std::pair<lint, int>> factorize(lint n)
+    {
+        using namespace std;
+        auto mul_mod = [&](lint x, lint y) -> lint {
+            return __int128_t(x) * y % n;
+        };
+        if (n == 1) return {};
+
+        random_device seed;
+        mt19937_64 gen(seed());
+        uniform_int_distribution<lint> dist(1, n - 1);
+        auto find_prime_factor = [&](auto self, lint nn) -> lint {
+            if (is_prime(nn)) return nn;
+            if (nn % 2 == 0) return 2;
+            lint c;
+            auto f = [&](lint x) { return (mul_mod(x, x) + c) % nn; };
+            while (true) {
+                c = dist(gen);
+                lint x = dist(gen), y = x;
+                lint d = 1;
+                while (d == 1) {
+                    x = f(x);
+                    y = f(f(y));
+                    d = gcd(abs(x - y), nn);
+                }
+                if (d == nn) continue;
+                if (is_prime(d)) return d;
+                if (is_prime(nn / d)) return nn / d;
+                return self(self, min(d, nn / d));
+            }
+        };
+        vector<pair<lint, int>> ans;
+        while (n > 1) {
+            lint p = find_prime_factor(find_prime_factor, n);
+            int e = 0;
+            while (n % p == 0) {
+                n /= p;
+                e++;
+            }
+            ans.emplace_back(p, e);
+        }
+        ranges::sort(ans);
+        return ans;
+    }
+
+    // [d for d divides n if pred(d)]
+    // pred(d): small enough
+    template <typename T>
+    requires requires(T pred, lint l) {
+        { pred(l) } -> std::same_as<bool>;
+    }
+    std::vector<lint> list_divisors(const std::vector<std::pair<lint, int>>& pe, T pred)
+    {
+        std::vector<lint> ans{1};
+        for (auto [p, e] : pe) {
+            auto ans2 = ans;
+            for (lint d : ans) {
+                for (int ei = 1; ei <= e; ++ei) {
+                    d *= p;
+                    if (!pred(d)) break;
+                    ans2.push_back(d);
+                }
+            }
+            ans = ans2;
+        }
+        ranges::sort(ans);
         return ans;
     }
 
