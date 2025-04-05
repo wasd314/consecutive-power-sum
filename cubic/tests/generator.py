@@ -48,7 +48,7 @@ dump_cases("002-random", gen_cases(15, gen_reciprocal))
 handmade = [1, 2, 5, 7, 8, 9]
 # have solution
 handmade.extend([8000, 23295_638016])
-handmade.extend([999693_664352_352684, 999844_743676_712327])
+handmade.extend([999693_664352_352684, 999844_743676_712327, MAX_N])
 # have 2 solutions
 handmade.extend([999116_559748_794375, 999563_958497_309400])
 # prime
