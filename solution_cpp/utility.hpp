@@ -257,6 +257,7 @@ namespace wasd314
     }
     std::vector<lint> list_divisors(const std::vector<std::pair<lint, int>>& pe, T pred)
     {
+        if (!pred(1)) return {};
         std::vector<lint> ans{1};
         for (auto [p, e] : pe) {
             auto ans2 = ans;
@@ -269,7 +270,7 @@ namespace wasd314
             }
             ans = ans2;
         }
-        ranges::sort(ans);
+        std::ranges::sort(ans);
         return ans;
     }
 
