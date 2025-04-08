@@ -104,29 +104,42 @@ namespace wasd314
         }
     }
 
+    std::vector<lint> read_all()
+    {
+        lint n;
+        std::vector<lint> ans;
+        while (std::cin >> n) {
+            ans.push_back(n);
+        }
+        assert(ans.size() == ans[0] + 1);
+        ans.erase(ans.begin());
+        return ans;
+    }
+
     void answer_cubic_with(const wrapped_solver& f)
     {
         using std::cout;
-        using std::endl;
-
-        lint n;
-        std::cin >> n;
-        std::vector<solution_t> ans = f(n, 3);
-        cout << ans.size() << endl;
-        for (auto [e, l, r] : ans) {
-            cout << l << ' ' << r << endl;
+        auto ns = read_all();
+        for (lint n : ns) {
+            auto ans = f(n, 3);
+            cout << ans.size() << '\n';
+            for (auto [e, l, r] : ans) {
+                cout << l << ' ' << r << '\n';
+            }
         }
     }
 
     template <int E_FIRST>
     void answer_power_with(const combined_solver<E_FIRST>& f)
     {
-        lint n;
-        std::cin >> n;
-        std::vector<solution_t> ans = f(n);
-        std::cout << ans.size() << std::endl;
-        for (auto [e, l, r] : ans) {
-            std::cout << e << ' ' << l << ' ' << r << std::endl;
+        using std::cout;
+        auto ns = read_all();
+        for (lint n : ns) {
+            auto ans = f(n);
+            cout << ans.size() << '\n';
+            for (auto [e, l, r] : ans) {
+                cout << e << ' ' << l << ' ' << r << '\n';
+            }
         }
     }
 
