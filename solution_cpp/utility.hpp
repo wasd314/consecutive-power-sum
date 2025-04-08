@@ -111,8 +111,10 @@ namespace wasd314
         while (std::cin >> n) {
             ans.push_back(n);
         }
-        assert(ans.size() == ans[0] + 1);
-        ans.erase(ans.begin());
+        if (ans.size() > 1) {
+            assert(ans.size() == ans[0] + 1);
+            ans.erase(ans.begin());
+        }
         return ans;
     }
 
