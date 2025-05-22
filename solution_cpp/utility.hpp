@@ -275,17 +275,15 @@ namespace wasd314
         if (!pred(1)) return {};
         std::vector<lint> ans{1};
         for (auto [p, e] : pe) {
-            auto ans2 = ans;
-            for (lint d : ans) {
+            for (int i = 0, s = ans.size(); i < s; ++i) {
+                lint d = ans[i];
                 for (int ei = 1; ei <= e; ++ei) {
                     d *= p;
                     if (!pred(d)) break;
-                    ans2.push_back(d);
+                    ans.push_back(d);
                 }
             }
-            ans = ans2;
         }
-        std::ranges::sort(ans);
         return ans;
     }
 
