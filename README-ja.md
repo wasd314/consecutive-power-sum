@@ -45,7 +45,9 @@ yukicoder-md -t -i statement/editorial.md | sed -e 's/<h5>/<h5 class=\"shadow\">
   - `b == 0`, `method == "handmade"`: 手製
   - `b == 1`, `method == "random"`: 解を乱択して $N$ を逆算（解の存在が保証される）
   - `b == 2`, `method == "random"`: $N$ を乱択（解の存在が保証されない）
-- `serial`: `a`, `b` とも同じカテゴリ内の通し番号（昇順，0-origin）
+- `serial`: `a`, `b` とも同じカテゴリ内の通し番号
+  - $(\text{解の個数}, N)$ の昇順
+  - $0$-origin
 - `extension`: 拡張子
   - `"in"`: 入力
   - `"diff"`: 想定出力
