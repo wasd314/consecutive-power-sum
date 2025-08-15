@@ -75,5 +75,5 @@ handmade.extend([999999_999999_999787, 999999_999999_999541])
 dump_cases("0-handmade", handmade)
 
 dump_cases("1-random", gen_cases(20, lambda: gen_have_sol(MIN_N, MAX_N)))
-dump_cases("2-random", gen_cases(10, lambda: gen_reciprocal(MIN_N, MAX_N), lambda: gen_reciprocal(10**18, MAX_N)))
+dump_cases("2-random", gen_cases(10, lambda: gen_reciprocal(MIN_N, MAX_N), lambda: gen_reciprocal(10**20, MAX_N)))
 
