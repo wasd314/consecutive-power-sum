@@ -20,10 +20,10 @@ EXTENSIONS=("in" "diff")
 
 for ext in "${EXTENSIONS[@]}"; do
     target_dir="${SCRIPT_DIR}/${ext}"
-    
-    # ターゲットディレクトリが存在しない場合は作成
+
     mkdir -p "${target_dir}"
-    
+    rm -f "${target_dir}"/*
+
     # 該当する拡張子のファイルを.txtに変換してコピー
     for file in "${SOURCE_DIR}"/*.${ext}; do
         if [[ -f "$file" ]]; then
