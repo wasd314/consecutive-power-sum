@@ -4,7 +4,7 @@ from pathlib import Path
 sol = Path(__file__).resolve().parents[2] / "solution_py"
 sys.path.append(str(sol))
 
-import e3
+import ee
 import utility
 import random
 import bisect as bs
@@ -56,7 +56,7 @@ handmade.extend([999999_999999_999967, 999999_999999_999989])
 # semiprime
 handmade.extend([999999_999999_999787, 999999_999999_999541])
 
-sol_count = {n: len(e3.r31_bs_div_1(n, 3)) for n in handmade}
+sol_count = {n: len(ee.re1_bs_div_1(n, 3)) for n in handmade}
 cases = [[] for _ in range(max(sol_count.values()) + 1)]
 for n, l in sol_count.items():
     cases[l].append(n)
