@@ -55,7 +55,8 @@ yukicoder-md -t -i statement/editorial.md | sed -e 's/<h5>/<h5 class=\"shadow\">
 - `a == 0`
 - `b == 0`
 - `method == "sample"`
+- `serial` は $N$ 自体
 
-すなわち `f"00-sample-{serial:02}.{extension}"` とする．
+すなわち `f"00-sample-{N}.{extension}"` とする．
 
 `extension` のうち `"in"`, `"diff"` は Rime からの要請および仕様に基づき，`"txt"` は yukicoder の要請（入出力の拡張子を揃える）によるものである．
