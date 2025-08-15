@@ -42,8 +42,8 @@ $L_C\ R_C$
 
 # サンプル
 
-{{ import_sample_input(file="../rime-out/tests/000-sample-2025.in") }}
-{{ import_sample_output(file="../rime-out/tests/000-sample-2025.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-2025.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2025.diff") }}
 
 次の式が成り立ちます．
 - $S(1, 9) = 1^3 + 2^3 + 3^3 + 4^3 + 5^3 + 6^3 + 7^3 + 8^3 + 9^3 = 2025$
@@ -51,14 +51,14 @@ $L_C\ R_C$
 $(1, 9)$ は唯一の解です．
 
 
-{{ import_sample_input(file="../rime-out/tests/000-sample-2026.in") }}
-{{ import_sample_output(file="../rime-out/tests/000-sample-2026.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-2026.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2026.diff") }}
 
 解が1つもないこともあります．
 
 
-{{ import_sample_input(file="../rime-out/tests/000-sample-216.in") }}
-{{ import_sample_output(file="../rime-out/tests/000-sample-216.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-216.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-216.diff") }}
 
 解が複数あることもあります．$L = R$ でもよいことに注意してください．
 
