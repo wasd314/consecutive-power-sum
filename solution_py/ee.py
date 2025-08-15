@@ -1,4 +1,4 @@
-from utility import power_sum
+from utility import power_sum, min_true
 import bisect as bs
 
 def dummy(*args):
@@ -98,13 +98,13 @@ def re1_bs(only_div: bool, from_prev: bool):
                 dl = 1
                 while dl < prev_l and pred(prev_l - dl):
                     dl <<= 1
-                l = bs.bisect_left(range(prev_l + 1), True, key=pred, lo=max(0, prev_l - dl))
+                l = min_true(max(0, prev_l - dl), prev_l + 1, pred)
                 prev_l = l
             else:
                 r = 1
                 while not pred(r):
                     r <<= 1
-                l = bs.bisect_left(range(r + 1), True, key=pred, lo=1)
+                l = min_true(1, r + 1, pred)
             if power_sum(e, l, l + w) == n:
                 ans.append((e, l, l + w - 1))
         ans.reverse()

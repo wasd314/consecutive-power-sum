@@ -25,6 +25,19 @@ def answer_cubic_with(solver):
     for sol in ans:
         print(*sol[1:])
 
+def min_true(l: int, r: int, pred):
+    """min i s.t. l <= i < r and pred(i)"""
+    assert l < r
+    if pred(l):
+        return l
+    while abs(l - r) > 1:
+        m = (l + r) // 2
+        if pred(m):
+            r = m
+        else:
+            l = m
+    return r
+
 class CombinedSolver:
     def __init__(self, e_start: int, *solvers):
         self.e_start = e_start
