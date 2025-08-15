@@ -43,8 +43,8 @@ $E_C\ L_C\ R_C$
 
 # サンプル
 
-{{ import_sample_input(file="../rime-out/tests/000-sample-2024.in") }}
-{{ import_sample_output(file="../rime-out/tests/000-sample-2024.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-2024.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2024.diff") }}
 
 次の式が成り立ちます．
 - $S(3, 2, 9) = 2^3 + 3^3 + 4^3 + 5^3 + 6^3 + 7^3 + 8^3 + 9^3 = 2024$
@@ -52,8 +52,8 @@ $E_C\ L_C\ R_C$
 $(3, 2, 9)$ は唯一の解です．
 
 
-{{ import_sample_input(file="../rime-out/tests/000-sample-2025.in") }}
-{{ import_sample_output(file="../rime-out/tests/000-sample-2025.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-2025.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2025.diff") }}
 
 解が複数あることもあります．$L = R$ でもよいことに注意してください．
 
@@ -64,7 +64,7 @@ $(3, 2, 9)$ は唯一の解です．
 $(2, 45, 45)$ の方が $(3, 1, 9)$ より辞書順で小さいので，この順に出力してください．
 
 
-{{ import_sample_input(file="../rime-out/tests/000-sample-2026.in") }}
-{{ import_sample_output(file="../rime-out/tests/000-sample-2026.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00-sample-2026.in") }}
+{{ import_sample_output(file="../rime-out/tests/00-sample-2026.diff") }}
 
 解が1つもないこともあります．
