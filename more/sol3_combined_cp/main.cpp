@@ -64,7 +64,7 @@ namespace wasd314
 
     inline namespace literals
     {
-        constexpr u128 operator"" _u128(const char *s) { return io::parse_u128(s); }
+        constexpr u128 operator""_u128(const char *s) { return io::parse_u128(s); }
     }  // namespace literals
 
     namespace factorization
@@ -509,8 +509,7 @@ namespace wasd314
         {
             using solver_util::bisect_left;
             using std::vector;
-            vector<solution_t>
-                ans;
+            vector<solution_t> ans;
             u128 prev_l = n;
             for (u128 w = 1;; ++w) {
                 if (power_sum(e, 1, w + 1) > n) break;
@@ -522,7 +521,7 @@ namespace wasd314
                     while (dl < prev_l && pred(prev_l - dl)) {
                         dl <<= 1;
                     }
-                    l = bisect_left(std::max(0_u128, prev_l - dl), prev_l, pred);
+                    l = bisect_left(prev_l >= dl ? prev_l - dl : 0_u128, prev_l, pred);
                 } else {
                     u128 r = 1;
                     while (!pred(r)) {
