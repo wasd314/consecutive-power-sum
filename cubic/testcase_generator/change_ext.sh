@@ -19,7 +19,7 @@ fi
 EXTENSIONS=("in" "diff")
 
 for ext in "${EXTENSIONS[@]}"; do
-    target_dir="${DIR}/${ext}"
+    target_dir="${SCRIPT_DIR}/${ext}"
     
     # ターゲットディレクトリが存在しない場合は作成
     mkdir -p "${target_dir}"
