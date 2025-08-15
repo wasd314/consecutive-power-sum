@@ -27,9 +27,9 @@ rime test .
 ### 問題文・解説文の生成
 
 ```
-yukicoder-md -t -i statement/statement.md
-yukicoder-md -t -i statement/editorial.md
+yukicoder-md -t -i statement/statement.md | sed -e 's/<h5>/<h5 class=\"shadow\">/g' | pbcopy
+yukicoder-md -t -i statement/editorial.md | sed -e 's/<h5>/<h5 class=\"shadow\">/g' | pbcopy
 ```
 
-
+ここで `sed -e 's/<h5>/<h5 class=\"shadow\">/g'` は Markdown ファイルにおけるレベル2見出し `##` の装飾をしています．
 
