@@ -460,6 +460,7 @@ namespace wasd314
             std::string name;
             virtual std::vector<solution_t<T>> operator()(T n, int e) const
             {
+                using namespace io;
                 std::cerr << "virtual function called(" << n << "," << e << ")" << std::endl;
                 return {};
             }
@@ -522,6 +523,7 @@ namespace wasd314
         template <typename T>
         std::vector<T> read_all()
         {
+            using namespace io;
             T n;
             std::vector<T> ans;
             while (std::cin >> n) {
@@ -551,6 +553,7 @@ namespace wasd314
         void answer_power_with(const combined_solver<T, E_FIRST> &f)
         {
             using std::cout;
+            using namespace io;
             auto ns = read_all<T>();
             for (T n : ns) {
                 auto ans = f(n);
