@@ -14,14 +14,18 @@
 
 namespace wasd314::e3
 {
-    auto dummy = named_solver([](lint, int) { return std::vector<solution_t>(); }, "dummy");
+    using namespace wasd314;
+    auto dummy = [] {
+        auto f = [](lint, int) { return std::vector<solver::solution_t<lint>>(); };
+        return solver::named_solver<lint, decltype(f)>(f, "dummy");
+    }();
 
-    std::vector<wrapped_solver> solvers{
-        ee::re0_two_pointer,
-        ee::re1_bs_all_1,
-        ee::re1_bs_div_1,
-        ee::re1_bs_all_pre,
-        ee::re1_bs_div_pre,
+    std::vector<solver::wrapped_solver<lint>> solvers{
+        ee::re0_two_pointer<lint>,
+        ee::re1_bs_all_1<lint>,
+        ee::re1_bs_div_1<lint>,
+        ee::re1_bs_all_pre<lint>,
+        ee::re1_bs_div_pre<lint>,
     };
 }  // namespace wasd314::e3
 
