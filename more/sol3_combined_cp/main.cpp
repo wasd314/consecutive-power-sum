@@ -106,7 +106,7 @@ namespace wasd314
         };
 
         template <int MOD_BITS>
-        struct dynamic_mod4 {
+        struct dynamic_mod {
             using pack = integer_pack<MOD_BITS>;
             using U0 = pack::U0;
             using U1 = pack::U1;
@@ -159,7 +159,7 @@ namespace wasd314
             void set_R_1() { R_1 = 1 + multiply_high(mod, N_); }
 
            public:
-            dynamic_mod4(const U1 &modulo) : mod(modulo)
+            dynamic_mod(const U1 &modulo) : mod(modulo)
             {
                 assert(~mod >> (BITS_1 - 1));
                 assert(mod & 1);
@@ -229,7 +229,7 @@ namespace wasd314
             }
             if (n < 41 * 41) return true;
 
-            dynamic_mod4<128> mont(n);
+            dynamic_mod<128> mont(n);
             const U1 one = mont.R1, neg_one = mont.neg(one);
 
             auto test_miller_rabin = [&](const std::vector<U1> &bases) {
@@ -299,7 +299,7 @@ namespace wasd314
                 if (nn == 1) return {};
                 if (is_prime(nn)) return {nn};
                 using namespace io;
-                dynamic_mod4<128> mont(nn);
+                dynamic_mod<128> mont(nn);
 
                 auto find_factor = [&]() {
                     u128 rc = 0;
@@ -444,7 +444,6 @@ namespace wasd314
             }
             return hi;
         }
-
     }  // namespace solver_util
 
     namespace solver

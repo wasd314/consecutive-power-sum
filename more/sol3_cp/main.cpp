@@ -5,5 +5,5 @@
 int main()
 {
     using namespace wasd314;
-    answer_power_with<1>({e1::r13_pe, ee::re1[3], ee::re1[3], ee::re0[0]});
+    solver::answer_power_with<u128, 1>({e1::r13_pe, ee::re1<u128>[3], ee::re1<u128>[3], ee::re0<u128>[0]});
 }
