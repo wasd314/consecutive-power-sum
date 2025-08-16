@@ -47,8 +47,8 @@ $C$ が大きくなる場合があるため，高速な方法で入出力を行�
 
 # サンプル
 
-{{ import_sample_input(file="../rime-out/tests/00-sample-2.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-2.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00_sample_2.in") }}
+{{ import_sample_output(file="../rime-out/tests/00_sample_2.diff") }}
 
 次の式が成り立ちます．$L = R$ でもよいことに注意してください．
 - $S(1, 2, 2) = 2^1 = 2$
@@ -56,8 +56,8 @@ $C$ が大きくなる場合があるため，高速な方法で入出力を行�
 $(1, 2, 2)$ は唯一の解です．
 
 
-{{ import_sample_input(file="../rime-out/tests/00-sample-24979.in") }}
-{{ import_sample_output(file="../rime-out/tests/00-sample-24979.diff") }}
+{{ import_sample_input(file="../rime-out/tests/00_sample_24979.in") }}
+{{ import_sample_output(file="../rime-out/tests/00_sample_24979.diff") }}
 
 解が複数あることもあります．
 
