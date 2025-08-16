@@ -534,7 +534,6 @@ namespace wasd314
                 prev_l = l;
             }
             std::ranges::reverse(ans);
-            // std::ranges::sort(ans);
             return ans;
         }
 
@@ -554,6 +553,7 @@ namespace wasd314
             for (const auto &ans_e : answers) {
                 ans.insert(ans.end(), ans_e.begin(), ans_e.end());
             }
+            std::ranges::sort(ans);
             std::stringstream buf;
             buf << ans.size() << '\n';
             for (auto &[e, l, r] : ans) {
@@ -569,8 +569,6 @@ int main()
     using namespace std;
     using namespace wasd314;
     using namespace wasd314::io;
-    // using namespace wasd314::literals;
-    // using namespace wasd314::factorization;
     u128 n;
     cin >> n;
     solver::solve(n);
