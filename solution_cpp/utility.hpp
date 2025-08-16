@@ -512,7 +512,7 @@ namespace wasd314
                     auto ansi = fs[i](n, E_FIRST + i);
                     ans.insert(ans.end(), ansi.begin(), ansi.end());
                 }
-                for (int e = E_FIRST + count; e < 64; ++e) {
+                for (int e = E_FIRST + count; e < std::numeric_limits<T>::digits; ++e) {
                     auto ansi = fs[count - 1](n, e);
                     ans.insert(ans.end(), ansi.begin(), ansi.end());
                 }
