@@ -35,7 +35,7 @@ yukicoder-md -t -i statement/editorial.md | sed -e 's/<h5>/<h5 class=\"shadow\">
 
 ## テストケース名の形式
 
-ファイル名は `f"{a}{b}-{method}-{serial:02}.{extension}"`の形式とする．ここで
+ファイル名は `f"{a}{b}_{method}_{serial:02}.{extension}"`の形式とする．ここで
 - `a`: $N$ の範囲
   - `1`: $N \in [1, 10^{18}]$
   - `2`: $N \in (10^{18}, 10^{22}]$
@@ -53,12 +53,14 @@ yukicoder-md -t -i statement/editorial.md | sed -e 's/<h5>/<h5 class=\"shadow\">
   - `"diff"`: 想定出力
   - `"txt"`: yukicoder に登録するテストケース（入力，出力）
 
-である．例外としてサンプルは
+である．
+
+例外としてサンプルは
 - `a == 0`
 - `b == 0`
 - `method == "sample"`
 - `serial` は $N$ 自体
 
-すなわち `f"00-sample-{N}.{extension}"` とする．
+すなわち `f"00_sample_{N}.{extension}"` とする．
 
 `extension` のうち `"in"`, `"diff"` は Rime からの要請および仕様に基づき，`"txt"` は yukicoder の要請（入出力の拡張子を揃える）によるものである．
