@@ -41,7 +41,7 @@ def dump_cases(prefix, cases: list, sort=True):
     if sort:
         cases = sorted(cases, key=lambda n: (number_of_solutions(n), n))
     for i, n in enumerate(cases):
-        with open(f"{prefix}-{i:02}.in", "w") as f:
+        with open(f"{prefix}_{i:02}.in", "w") as f:
             print(n, file=f)
 
 # small
@@ -56,8 +56,8 @@ handmade.extend([999999_999999_999967, 999999_999999_999989])
 # semiprime
 handmade.extend([999999_999999_999787, 999999_999999_999541])
 
-dump_cases("10-handmade", handmade)
+dump_cases("10_handmade", handmade)
 
-dump_cases("11-random", gen_cases(15, lambda: gen_have_sol(MIN_N, MAX_N)))
-dump_cases("12-random", gen_cases(15, lambda: gen_reciprocal(MIN_N, MAX_N)))
+dump_cases("11_random", gen_cases(15, lambda: gen_have_sol(MIN_N, MAX_N)))
+dump_cases("12_random", gen_cases(15, lambda: gen_reciprocal(MIN_N, MAX_N)))
 

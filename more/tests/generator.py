@@ -56,7 +56,7 @@ def dump_cases(prefix, cases: list, sort=True):
             assert False
     for bi, bucket in enumerate(buckets):
         for i, n in enumerate(bucket):
-            with open(f"{bi}{prefix}-{i:02}.in", "w") as f:
+            with open(f"{bi}{prefix}_{i:02}.in", "w") as f:
                 print(n, file=f)
 
 
@@ -72,8 +72,8 @@ handmade.extend([999999_999999_999967, 999999_999999_999989])
 # semiprime
 handmade.extend([999999_999999_999787, 999999_999999_999541])
 
-dump_cases("0-handmade", handmade)
+dump_cases("0_handmade", handmade)
 
-dump_cases("1-random", gen_cases(20, lambda: gen_have_sol(MIN_N, MAX_N)))
-dump_cases("2-random", gen_cases(10, lambda: gen_reciprocal(MIN_N, MAX_N), lambda: gen_reciprocal(10**20, MAX_N)))
+dump_cases("1_random", gen_cases(20, lambda: gen_have_sol(MIN_N, MAX_N)))
+dump_cases("2_random", gen_cases(10, lambda: gen_reciprocal(MIN_N, MAX_N), lambda: gen_reciprocal(10**20, MAX_N)))
 
