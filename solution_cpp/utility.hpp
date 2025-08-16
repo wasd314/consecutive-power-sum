@@ -17,25 +17,29 @@
 namespace wasd314
 {
     using lint = long long;
-    using solution_t = std::tuple<int, lint, lint>;
 
+    template <typename T>
+    using solution_t = std::tuple<int, T, T>;
+
+    template <typename T>
     struct named_solver_base {
         std::string name;
-        virtual std::vector<solution_t> operator()(lint n, int e) const
+        virtual std::vector<solution_t<T>> operator()(T n, int e) const
         {
             std::cerr << "virtual function called(" << n << "," << e << ")" << std::endl;
             return {};
         }
         const named_solver_base& get() const { return *this; }
     };
-    template <typename T>
+    template <typename T, typename F>
     struct named_solver : named_solver_base {
-        T f;
-        named_solver(T f, std::string name) : f(f) { this->name = name; }
-        std::vector<solution_t> operator()(lint n, int e) const override { return f(n, e); }
+        F f;
+        named_solver(F f, std::string name) : f(f) { this->name = name; }
+        std::vector<solution_t<T>> operator()(T n, int e) const override { return f(n, e); }
     };
-    using wrapped_solver = std::reference_wrapper<named_solver_base>;
-    // 本体の関数 f の型 T の差異を named_solver_base で吸収し，
+    template <typename T>
+    using wrapped_solver = std::reference_wrapper<named_solver_base<T>>;
+    // 本体の関数 f の型 F の差異を named_solver_base で吸収し，
     // std::reference_wrapper に包むことで f を実行し分けている
 
     // `fs.size()` を N として，
@@ -46,12 +50,12 @@ namespace wasd314
     // - E >= `E_FIRST` + N - 1 を `fs[N - 1]` で
     //
     // それぞれ解いて結合する
-    template <int E_FIRST>
+    template <typename T, int E_FIRST>
     struct combined_solver {
         std::string name;
-        std::vector<wrapped_solver> fs;
+        std::vector<wrapped_solver<T>> fs;
 
-        combined_solver(std::initializer_list<wrapped_solver> args) : fs{args}
+        combined_solver(std::initializer_list<wrapped_solver<T>> args) : fs{args}
         {
             if (fs.empty()) return;
             name = fs[0].get().name;
@@ -60,13 +64,13 @@ namespace wasd314
                 name += f.get().name;
             }
         }
-        combined_solver(std::string name, std::initializer_list<wrapped_solver> args) : name(name), fs{args}
+        combined_solver(std::string name, std::initializer_list<wrapped_solver<T>> args) : name(name), fs{args}
         {
         }
 
-        std::vector<solution_t> operator()(lint n) const
+        std::vector<solution_t<T>> operator()(T n) const
         {
-            std::vector<solution_t> ans;
+            std::vector<solution_t<T>> ans;
 
             int count = fs.size();
             for (int i = 0; i < count; ++i) {
@@ -104,10 +108,11 @@ namespace wasd314
         }
     }
 
-    std::vector<lint> read_all()
+    template <typename T>
+    std::vector<T> read_all()
     {
-        lint n;
-        std::vector<lint> ans;
+        T n;
+        std::vector<T> ans;
         while (std::cin >> n) {
             ans.push_back(n);
         }
@@ -118,10 +123,10 @@ namespace wasd314
         return ans;
     }
 
-    void answer_cubic_with(const wrapped_solver& f)
+    void answer_cubic_with(const wrapped_solver<lint>& f)
     {
         using std::cout;
-        auto ns = read_all();
+        auto ns = read_all<lint>();
         for (lint n : ns) {
             auto ans = f(n, 3);
             cout << ans.size() << '\n';
@@ -131,12 +136,12 @@ namespace wasd314
         }
     }
 
-    template <int E_FIRST>
-    void answer_power_with(const combined_solver<E_FIRST>& f)
+    template <typename T, int E_FIRST>
+    void answer_power_with(const combined_solver<T, E_FIRST>& f)
     {
         using std::cout;
         auto ns = read_all();
-        for (lint n : ns) {
+        for (T n : ns) {
             auto ans = f(n);
             cout << ans.size() << '\n';
             for (auto [e, l, r] : ans) {
@@ -146,15 +151,15 @@ namespace wasd314
     }
 
     // min i in [lo, hi) s.t. pred(i), or default = hi
-    template <typename T>
-    requires requires(T pred, lint l) {
+    template <typename T, typename F>
+    requires requires(F pred, T l) {
         { pred(l) } -> std::same_as<bool>;
     }
-    lint bisect_left(lint lo, lint hi, T pred)
+    T bisect_left(T lo, T hi, F pred)
     {
         if (pred(lo)) return lo;
         while (lo + 1 < hi) {
-            lint mi = std::midpoint(lo, hi);
+            T mi = lo + (hi - lo) / 2;
             if (pred(mi)) {
                 hi = mi;
             } else {
