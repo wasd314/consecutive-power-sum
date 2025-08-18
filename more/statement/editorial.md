@@ -2,8 +2,8 @@
 
 まず $E$ の上界を与えます．$R = 1$ と仮定すると，$L = 1, S(E, L, R) = 1^E = 1$ が従うので $N \ge 2$ に反します．よって $R \ge 2$ より，
 $$
-2^E \le R^E \le \sum_{i = L}^R i^E = N, \\\\
-\therefore E \le \log_2 N
+  2^E \le R^E \le \sum_{i = L}^R i^E = N, \\\\
+  \therefore E \le \log_2 N
 $$
 が成り立ちます．従って以下 $E = 1, 2, 3, \dots, \lfloor \log_2 N \rfloor$ の各場合について解を列挙することを考えます．
 
@@ -12,8 +12,8 @@ $$
 
 $(E, L, R)$ が解であるとき，
 $$
-R^E \le \sum_{i = L}^R i^E = S(E, L, R) = N, \\\\
-\therefore R \le N^{1/E}
+  R^E \le \sum_{i = L}^R i^E = S(E, L, R) = N, \\\\
+  \therefore R \le N^{1/E}
 $$
 より $M := \lfloor N^{1/E} \rfloor$ とすると $1 \le L \le R \le M$ が成り立ちます．よって数列 $B$ を
 - $B_0 \coloneqq 0$
@@ -32,8 +32,8 @@ $$
 # $E = 1$ の場合
 
 $$
-S(1, L, L + W - 1) = \frac{1}{2} (2L + W - 1) W = N, \\\\
-W(W + 2L - 1) = 2N
+  S(1, L, L + W - 1) = \frac{1}{2} (2L + W - 1) W = N, \\\\
+  W(W + 2L - 1) = 2N
 $$
 が成り立ちます．$2 L - 1$ が正の奇数であることに注意すると，次の必要条件が得られます．
 
@@ -42,30 +42,29 @@ $$
 - $W$ と $2N/W$ の偶奇が異なる
 
 よって $2N$ を素因数分解し，$\sqrt{2N}$ 未満の $2N$ の正の約数を列挙し，各約数について対応する解があるか調べればよいです．$n$ の素因数分解の時間計算量を $F(n)$，$k$ 以下の $n$ の正の約数の個数を $d(n, k)$ とするとき，これは $F(2N) + \Theta( d(2N, \sqrt{2N}) )$ 時間で可能です．
-
-素因数分解はポラードの ρ 法を用いると期待 $O(N^{1/4} \log N )$ 時間で可能です．また $d(2N, \sqrt{2N})$ は $2N$ の正の約数の個数 $d(2N)$ のおよそ半分であり，$d(2N)$ は本問題の制約下では $2N = 1\ 795\ 224\ 969\ 573\ 235\ 200$ のときの $115\ 200$ 個が最大です．
+素因数分解は Pollard の ρ 法を用いると期待 $O(N^{1/4} \log N )$ 時間で可能です．また $d(2N, \sqrt{2N})$ は $2N$ の正の約数の個数 $d(2N)$ のおよそ半分であり，$d(2N)$ は本問題の制約下では $2N = 1\ 795\ 224\ 969\ 573\ 235\ 200$ のときの $115\ 200$ 個が最大です．
 
 
 # $E = 2$ の場合
 ## $\Theta( N^{1/3} \log N )$ 時間解法
 
 $$
-\begin{aligned}
-N
-&= \sum_{i = L}^{L + W - 1} i^2 \\\\
-&\ge \sum_{i = 1}^{W} i^2
-= \frac{1}{6} W (W + 1) (2 W + 1)
-\end{aligned}
+  \begin{aligned}
+    N
+    &= \sum_{i = L}^{L + W - 1} i^2 \\\\
+    &\ge \sum_{i = 1}^{W} i^2
+    = \frac{1}{6} W (W + 1) (2 W + 1)
+  \end{aligned}
 $$
 より，この不等号を満たす最大の整数 $W$ を $W_\text{max}$ として，$W$ の範囲は $1 \le W \le W_\text{max}$ に限られます．ここで
 $$
-\begin{aligned}
-  N
-  &\ge \frac{1}{6} W_\text{max} (W_\text{max} + 1) (2 W_\text{max} + 1) \\\\
-  &= \frac{1}{3} W_\text{max}^3 + \frac{1}{2} W_\text{max}^2 + \frac{1}{6} W_\text{max} \\\\
-  &\ge  \frac{1}{3} W_\text{max}^3, \\\\
-  \therefore W_\text{max} &\le \lfloor (3 N)^{1/3} \rfloor
-\end{aligned}
+  \begin{aligned}
+    N
+    &\ge \frac{1}{6} W_\text{max} (W_\text{max} + 1) (2 W_\text{max} + 1) \\\\
+    &= \frac{1}{3} W_\text{max}^3 + \frac{1}{2} W_\text{max}^2 + \frac{1}{6} W_\text{max} \\\\
+    &\ge  \frac{1}{3} W_\text{max}^3, \\\\
+    \therefore W_\text{max} &\le \lfloor (3 N)^{1/3} \rfloor
+  \end{aligned}
 $$
 であり，$W_\text{max} \in \Theta( N^{1/3} )$ が示せます（より精密には，$W_\text{max} = \lfloor (3 N)^{1/3} \rfloor$ もしくは $W_\text{max} = \lfloor (3 N)^{1/3} \rfloor - 1$ が成り立ちます）．$W$ を固定すると，$S(2, L, L + W - 1)$ は $L$ について狭義単調増加するため，$S(2, L, L + W - 1) = N$ なる $L$ は二分探索により $\Theta(\log N)$ 時間で求められます．従って $E = 2$ の場合を $\Theta( N^{1/3} \log N )$ 時間で解くことができます．
 
@@ -73,28 +72,14 @@ $$
 
 $S(2, L, L+W-1)$ は
 $$
-S(2, L, L+W-1)
-= \frac{1}{6} W (6L^2 + 6 LW - 6L + 2W^2 - 3W + 1)
+  S(2, L, L+W-1)
+  = \frac{1}{6} W (6L^2 + 6 LW - 6L + 2W^2 - 3W + 1)
 $$
 と因数分解することができるので，$S(2, L, L+W-1) = N$ のとき
 $$
-W (6L^2 + 6 LW - 6L + 2W^2 - 3W + 1) = 6N
+  W (6L^2 + 6 LW - 6L + 2W^2 - 3W + 1) = 6N
 $$
 より $W$ は $6N$ の約数であることが分かります．
-
-<details>
-<summary>気付き方</summary>
-
-一般に $S(E, 1, R)$ は $R$ についての有理数係数多項式なので（ファウルハーバーの公式），
-$$
-S(E, L, L+W-1) = S(E, 1, L+W-1) - S(E, 1, L-1)
-$$
-  は $W$ と $L$ についての有理数係数多項式です．この多項式は $W = 0$ を代入すると
-$$
-S(E, 1, L+0-1) - S(E, 1, L-1) = 0
-$$
-と $0$ になります．よって因数定理より，$S(E, L, L+W-1)$ は $W$ で有理数係数多項式として割り切れます．更に係数の分母を払うために $D \cdot S(E, L, L+W-1)$ が整数係数多項式となるような正整数 $D$ を取ると（例えば $E = 2$ では上述のように $D = 6$ とすれば），$W$ は $D \cdot S(E, L, L+W-1) = D \cdot N$ の約数といえます．$\blacksquare$
-</details>
 
 よって $W_\text{max}$ 以下の $6N$ の正の約数だけ調べればよく，$\Theta( d(6N, W_\text{max}) \log N )$ 時間が達成できます．
 
@@ -105,31 +90,31 @@ $$
 $E = 2$ の場合の手法は $E = 3$ の場合にも適用できます．
 
 $$
-\begin{aligned}
-N
-&= \sum_{i = L}^{L + W - 1} i^3 \\\\
-&\ge \sum_{i = 1}^{W} i^3
-= \frac{1}{4} W^2 (W + 1)^2
-\end{aligned}
+  \begin{aligned}
+    N
+    &= \sum_{i = L}^{L + W - 1} i^3 \\\\
+    &\ge \sum_{i = 1}^{W} i^3
+    = \frac{1}{4} W^2 (W + 1)^2
+  \end{aligned}
 $$
 より，この不等号を満たす最大の整数 $W$ を $W_\text{max}'$ として，$W$ の範囲は $1 \le W \le W_\text{max}'$ に限られます．ここで
 $$
-\begin{aligned}
-  N
-  &\ge \frac{1}{4} W_\text{max}'{}^2 (W_\text{max}' + 1)^2 \\\\
-  &> \frac{1}{4} W_\text{max}'{}^4, \\\\
-  \therefore W_\text{max}' &\le \lfloor (4 N)^{1/4} \rfloor
-\end{aligned}
+  \begin{aligned}
+    N
+    &\ge \frac{1}{4} W_\text{max}'{}^2 (W_\text{max}' + 1)^2 \\\\
+    &> \frac{1}{4} W_\text{max}'{}^4, \\\\
+    \therefore W_\text{max}' &\le \lfloor (4 N)^{1/4} \rfloor
+  \end{aligned}
 $$
 であり，$W_\text{max}' \in \Theta( N^{1/4} )$ が示せるので，$\Theta( N^{1/4} \log N )$ 時間で解くことができます．また
 $$
-\begin{aligned}
-  2 \cdot S(3, L, L+W-1)
-  &\equiv 2 \cdot S(3, 0, W-1) \\\\
-  &\equiv \frac{1}{2} W^2 (W+1)^2 \\\\
-  &\equiv W \cdot \frac{1}{2} W (W+1) \cdot (W+1) \\\\
-  &\equiv 0 && \pmod{W}  \\\\
-\end{aligned}
+  \begin{aligned}
+    2 \cdot S(3, L, L+W-1)
+    &\equiv 2 \cdot S(3, 0, W-1) \\\\
+    &\equiv \frac{1}{2} W^2 (W+1)^2 \\\\
+    &\equiv W \cdot \frac{1}{2} W (W+1) \cdot (W+1) \\\\
+    &\equiv 0 && \pmod{W}  \\\\
+  \end{aligned}
 $$
 より $W$ は $2N$ の約数であることが分かるので，$W_\text{max}'$ 以下の $2N$ の正の約数だけ調べることで $\Theta( d(2N, W_\text{max}') \log N )$ 時間でも解くことができます．
 
@@ -142,4 +127,48 @@ $$
 - $E \ge 4$ の解を $\Theta( N^{1/4} + N^{1/5} + \dots + N^{1/\lfloor \log_2 N \rfloor}) = \Theta(N^{1/4})$ 時間で，
 
 それぞれ列挙でき，$d(n, k) \le d(n, n) \in o(n^{1/4})$ であるため，合わせて期待 $O( N^{1/4} \log N )$ 時間程度でこの問題を解くことができます．
+
+
+# 補足
+
+## 素因数分解について
+
+Pollard の ρ 法で正整数 $N$ を素因数分解する際には，主に次の2つの計算ができればよいです．
+
+1. $N$ 以下の正整数 $n$ に対する素数判定
+2. $N$ 未満の非負整数 $a, b$ から $a b \bmod N$ を求める
+
+1つ目については，Miller–Rabin 素数判定法を利用することにすると，$n \ge 2^{64}$ に対しても
+
+<!--
+if (n < 18446744073709551616_u128) return test_miller_rabin({2, 325, 9375, 28178, 450775, 9780504, 1795265022});
+if (n < 318665857834031151167461_u128) return test_miller_rabin({2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37});
+if (n < 3317044064679887385961981_u128) return test_miller_rabin({2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41});
+-->
+- $n \lt 318\ 665\ 857\ 834\ 031\ 151\ 167\ 461 (\sim 3 \cdot 10^{23})$ なら $\\{ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37 \\}$ を
+- $n \lt 3\ 317\ 044\ 064\ 679\ 887\ 385\ 961\ 981 (\sim 3 \cdot 10^{24})$ なら $\\{ 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41 \\}$ を
+
+テストする底の集合に取ることで決定的に素数判定ができることが知られています（参考: [OEIS](https://oeis.org/A014233), [論文](https://doi.org/10.1090/mcom/3134)）．
+
+2つ目については，128 bit 整数型と Montgomery Reduction を用いることで，256 bit 整数型を使わずに実現できます（参考: [64 bit 整数型での実装例](https://yu212.hatenablog.com/entry/2023/12/14/203400)）．
+
+## $W$ に関する枝刈りの一般化
+
+$E = 2$ の場合に $W$ が $6 N$ の約数となることを示しましたが，これは実際に式を展開せずとも当たりをつけることができます．
+
+一般に任意の正整数 $E$ に対し，
+$$
+  \forall W > 0. \\; \forall L. \\; W \mid D \cdot S(E, L, L + W - 1)
+$$
+となるような正整数 $D$ が存在することを示します．
+
+Faulhaber の公式より，$S(E, 1, R)$ は $R$ についての有理数係数多項式なので，
+$$
+  S(E, L, L+W-1) = S(E, 1, L+W-1) - S(E, 1, L-1)
+$$
+は $W$ と $L$ についての有理数係数多項式です．この多項式は $W = 0$ を代入すると
+$$
+  S(E, 1, L+0-1) - S(E, 1, L-1) = 0
+$$
+と $0$ になります．よって因数定理より $S(E, L, L+W-1)$ は $W$ で有理数係数多項式として割り切れます．更に係数の分母を払うために $D \cdot S(E, L, L+W-1)$ が整数係数多項式となるような正整数 $D$ を取ると（例えば $E = 2$ では上述のように $D = 6$ とすれば），$W$ は $D \cdot S(E, L, L+W-1) = D \cdot N$ の約数といえます．
 
