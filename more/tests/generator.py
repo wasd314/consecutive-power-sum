@@ -42,7 +42,7 @@ def number_of_solutions(n: int):
 def dump_cases(prefix, cases: list, sort=True):
     buckets = [[] for _ in range(5)]
     if sort:
-        cases = sorted(cases, key=lambda n: (number_of_solutions(n), n))
+        cases = sorted(filter(lambda n: MIN_N <= n <= MAX_N, cases), key=lambda n: (number_of_solutions(n), n))
     for n in cases:
         if n <= 10**18:
             buckets[1].append(n)
@@ -64,16 +64,23 @@ def dump_cases(prefix, cases: list, sort=True):
 handmade = [2, 5, 7, 8, 9]
 # have solution
 handmade.extend([8000, 23295_638016])
-handmade.extend([999693_664352_352684, 999844_743676_712327, MAX_N])
-# have 2 solutions
-handmade.extend([999116_559748_794375, 999563_958497_309400])
+# handmade.extend([999693_664352_352684, 999844_743676_712327])
+handmade.extend([10**22, 10**23, 10**24])
 # prime
-handmade.extend([999999_999999_999967, 999999_999999_999989])
-# semiprime
-handmade.extend([999999_999999_999787, 999999_999999_999541])
+handmade.extend([10**22 - 27, 10**23 - 23, 10**24 - 257])
+# semiprime n = pq (q/p ~ 10, ~ 1000)
+handmade.extend([10**22 - 41, 10**23 - 587, 10**24 - 1077])
+handmade.extend([10**22 - 83, 10**23 - 503, 10**24 - 1901])
+# highly composite
+# d(2n, sqrt(2n)) = 322560, 491520, 737280
+handmade.extend([9297133512737990119200, 92971335127379901192000, 985496152350226952635200])
+# odd highly composite
+# d(2n, sqrt(2n)) = 165888, 245760, 368640
+handmade.extend([9587668935011052310425, 76991886902361480674625, 846910755925976287420875])
+
 
 dump_cases("0_handmade", handmade)
 
-dump_cases("1_random", gen_cases(20, lambda: gen_have_sol(MIN_N, MAX_N)))
+dump_cases("1_random", gen_cases(10, lambda: gen_have_sol(MIN_N, MAX_N)))
 dump_cases("2_random", gen_cases(10, lambda: gen_reciprocal(MIN_N, MAX_N), lambda: gen_reciprocal(10**20, MAX_N)))
 
