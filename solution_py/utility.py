@@ -50,7 +50,7 @@ class CombinedSolver:
         ans = []
         for e, solver in enumerate(solvers, e_start):
             ans.extend(solver(n, e))
-        for e in range(len(solvers) + e_start, 65):
+        for e in range(e_start + len(solvers), n.bit_length() + 5):
             ans.extend(solvers[-1](n, e))
         return ans
 
