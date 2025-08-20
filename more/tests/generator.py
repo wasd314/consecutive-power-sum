@@ -1,11 +1,10 @@
-#! /usr/bin/env python
+#! /usr/bin/env pypy
 import sys
 from pathlib import Path
 sol = Path(__file__).resolve().parents[2] / "solution_py"
 sys.path.append(str(sol))
 
-import e2
-import ee
+import e1
 import utility
 import random
 from consts import MIN_N, MAX_N
@@ -36,13 +35,13 @@ def gen_have_sol(min_n: int, max_n: int):
 def gen_cases(num: int, *fs):
     return [f() for f in fs for _ in range(num)]
 
-def number_of_solutions(n: int):
-    return len(ee.re1_bs_div_pre(n, 4))
-
-def dump_cases(prefix, cases: list, sort=True):
+def dump_cases(prefix, cases: list[int], uniq_sort=True):
     buckets = [[] for _ in range(5)]
-    if sort:
-        cases = sorted(filter(lambda n: MIN_N <= n <= MAX_N, cases), key=lambda n: (number_of_solutions(n), n))
+    if uniq_sort:
+        cases = sorted(
+            {n for n in cases if MIN_N <= n <= MAX_N},
+            key=lambda n: (e1.number_of_solutions(n), n)
+        )
     for n in cases:
         if n <= 10**18:
             buckets[1].append(n)
@@ -66,6 +65,9 @@ handmade = [2, 5, 7, 8, 9]
 handmade.extend([8000, 23295_638016])
 # handmade.extend([999693_664352_352684, 999844_743676_712327])
 handmade.extend([10**22, 10**23, 10**24])
+# power
+handmade.extend([2**e + delta for e in (73, 76, 79) for delta in (-1, 0, 1)])
+handmade.extend([3**e for e in (46, 48, 50)])
 # prime
 handmade.extend([10**22 - 27, 10**23 - 23, 10**24 - 257])
 # semiprime n = pq (q/p ~ 10, ~ 1000)
