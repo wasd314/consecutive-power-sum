@@ -96,8 +96,8 @@ $$
   \begin{aligned}
     N
     &\ge \frac{1}{6} W_2 (W_2 + 1) (2 W_2 + 1) \\\\
-    &= \frac{1}{3} W_2^3 + \frac{1}{2} W_2^2 + \frac{1}{6} W_2 \\\\
-    &\ge  \frac{1}{3} W_2^3, \\\\
+    &\gt \frac{1}{6} W_2 \cdot W_2 \cdot 2 W_2 \\\\
+    &= \frac{1}{3} W_2^3, \\\\
     \therefore W_2 &\le \lfloor (3 N)^{1/3} \rfloor
   \end{aligned}
 $$
