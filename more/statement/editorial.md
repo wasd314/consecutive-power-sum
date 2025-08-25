@@ -146,8 +146,8 @@ $$
   \begin{aligned}
     2 \cdot S(3, L, L+W-1)
     &\equiv 2 \cdot S(3, 0, W-1) \\\\
-    &\equiv \frac{1}{2} W^2 (W+1)^2 \\\\
-    &\equiv W \cdot \frac{1}{2} W (W+1) \cdot (W+1) \\\\
+    &\equiv \frac{1}{2} W^2 (W-1)^2 \\\\
+    &\equiv W \cdot \frac{1}{2} W (W-1) \cdot (W-1) \\\\
     &\equiv 0 && \pmod{W} \\\\
   \end{aligned}
 $$
