@@ -47,14 +47,14 @@ $$
 
 さらなる考察により必要十分な列挙を行うこともできます．
 
-$2N \coloneqq 2^e r$ となるように正整数 $e$ および奇数 $r$ を取り，次の集合たちを考えます．
+$2N \coloneqq 2^e r$ となるように正整数 $e$ および奇数 $r$ を取り，次の集合たちを考えます（文字はいずれも正整数とします）．
 $$
   \begin{aligned}
     X_1 &\coloneqq \left\{\, (W, L) \;\middle|\; W(W + 2L - 1) = 2N  \,\right\}, \\\\
     X_2 &\coloneqq \left\{\, (W, W + 2L - 1) \;\middle|\; W(W + 2L - 1) = 2N  \,\right\}, \\\\
     X_3 &\coloneqq \left\{\, (a, 2^e b) \;\middle|\; a \cdot 2^e b = 2N \, (= 2^e r)  \,\right\}, \\\\
     X_4 &\coloneqq \left\{\, (a, b) \;\middle|\; a b = r \,\right\}, \\\\
-    X_5 &\coloneqq \left\{\, a \;\middle|\; a \,\text{は}\, r \,\text{の正の約数} \,\right\}.
+    X_5 &\coloneqq \left\{\, a \;\middle|\; a \,\text{は}\, r \,\text{の約数} \,\right\}.
   \end{aligned}
 $$
 
