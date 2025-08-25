@@ -1,8 +1,11 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <format>
 #include <iostream>
+#include <map>
 #include <queue>
+#include <ranges>
 #include <vector>
 
 namespace wasd314
@@ -174,12 +177,43 @@ int main()
     };
     enumerate_smooth(ip, multiple);
     cerr << now_str() << ' ' << count << " found" << '\n';
+
+    map<string, string> color_dic{
+        {"black", "\033[30m"},
+        {"red", "\033[31m"},
+        {"green", "\033[32m"},
+        {"yellow", "\033[33m"},
+        {"blue", "\033[34m"},
+        {"end", "\033[0m"},
+    };
+    auto wrap_color = [&](string text, string color = "red") {
+        return format("{}{}{}", color_dic[color], text, color_dic["end"]);
+    };
+    auto factorize_str = [&](u128 n) {
+        string s;
+        for (int i = 0; i <= ip; ++i) {
+            int e = 0;
+            while (n % primes[i] == 0) {
+                n /= primes[i];
+                e++;
+            }
+            if (e == 0) {
+                s.push_back('_');
+            } else if (e < 10) {
+                s.push_back('0' + e);
+            } else {
+                s += wrap_color({char('a' + e - 10)});
+            }
+        }
+        return s;
+    };
+
     {
         int i = 0;
         while (!ans.empty()) {
             auto [c, n] = ans.top();
             ans.pop();
-            cerr << i << ' ' << c << ' ' << n << '\n';
+            cerr << i << ' ' << c << ' ' << n << ' ' << factorize_str(n) << '\n';
             i++;
         }
     }
