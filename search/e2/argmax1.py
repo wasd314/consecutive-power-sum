@@ -58,6 +58,22 @@ def factorize_str(n: int):
     return "".join("_" if e == 0 else str(e) if e < 10 else wrap_color(chr(ord("a") + e - 10), "red") for e in es)
 
 @cache
+def to_w2(n6: int):
+    def pred(w):
+        return acc2(1, w + 1) * 6 <= n6
+    ok = 0
+    ng = 1
+    while pred(ng):
+        ng *= 2
+    while abs(ok - ng) > 1:
+        mi = (ok + ng) // 2
+        if pred(mi):
+            ok = mi
+        else:
+            ng = mi
+    return ok
+
+@cache
 def count_divisors(n6: int, n6_max: int):
     """actual d(n6, w_max(n)), upper bound d(n6, w_max(n_max))"""
     pe = factorize(n6)
@@ -92,11 +108,10 @@ def count_smooth(ip, n):
 
 ub_memo = {}
 
-def upper_bound(n_max: int):
+def upper_bound(n6_max: int):
     """
     primorial の積に限って探索する
     """
-    n6_max = n_max * 6
     fw = len(f"{n6_max:_}")
     cand = {}
 
@@ -114,22 +129,23 @@ def upper_bound(n_max: int):
             n6 *= pm
 
     print(f"[{datetime.now()}] start n6_max = {n6_max:_}")
-    if n_max in ub_memo:
-        cand, cand_ac, to_rank, cand_ub = ub_memo[n_max]
+    if n6_max in ub_memo:
+        cand, cand_ac, to_rank, cand_ub = ub_memo[n6_max]
     else:
         dfs(len(primes) - 1, 1)
         cand_ac = sorted(cand, key=lambda n: (-cand[n][-2], -cand[n][-1]))
         to_rank = {n: i for i, n in enumerate(cand_ac)}
         cand_ub = sorted(cand, key=lambda n: (-cand[n][-1], -cand[n][-2]))
-        ub_memo[n_max] = cand, cand_ac, to_rank, cand_ub
+        ub_memo[n6_max] = cand, cand_ac, to_rank, cand_ub
 
     print(f"[{datetime.now()}] {len(cand):_} cand found")
-    for i in range(200):
+    for i in range(min(200, len(cand) - 20)):
         n_ac = cand_ac[i]
         n_ub = cand_ub[i]
         print(to_rank[n_ac], *cand[n_ac], "|", to_rank[n_ub], *cand[n_ub], sep="\t")
-    print("...")
-    for i in range(20)[::-1]:
+    if len(cand) > 200:
+        print("...")
+    for i in range(min(20, len(cand)))[::-1]:
         n_ac = cand_ac[~i]
         n_ub = cand_ub[~i]
         print(to_rank[n_ac], *cand[n_ac], "|", to_rank[n_ub], *cand[n_ub], sep="\t")
