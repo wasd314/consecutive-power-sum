@@ -76,7 +76,13 @@ def is_prime(n: int):
         return test_miller_rabin(n, [2, 13, 23, 16_62803])
     if n < 3_77057_95821_54547:
         return test_miller_rabin(n, [2, 8_80937, 25_70940, 6103_86380, 41307_85767])
-    return test_miller_rabin(n, [2, 325, 9375, 28178, 450775, 9780504, 17952_65022])
+    if n < 18446_74407_37095_51616:
+        return test_miller_rabin(n, [2, 325, 9375, 28178, 450775, 9780504, 17952_65022])
+    if n < 3186_65857_83403_11511_67461:
+        return test_miller_rabin(n, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37])
+    if n < 33170_44064_67988_73859_61981:
+        return test_miller_rabin(n, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41])
+    assert False
 
 def factorize(n: int):
     assert n >= 1
