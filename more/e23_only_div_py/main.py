@@ -1,3 +1,7 @@
+#! /usr/bin/env pypy
+from collections import Counter
+from math import gcd
+
 def power_sum(e: int, l: int, r: int | None = None) -> int:
     """e-th power sum of [l, r) or [0, l)"""
     if r is not None:
@@ -16,14 +20,6 @@ def power_sum(e: int, l: int, r: int | None = None) -> int:
         return (l - 1) * l // 2 * (l - 1) * l // 2 * (2 * (l - 1) * l - 1) // 3
     else:
         return 0
-
-def answer_cubic_with(solver):
-    """`e == 3` のケースを解答する"""
-    n = int(input())
-    ans = solver(n, 3)
-    print(len(ans))
-    for sol in ans:
-        print(*sol[1:])
 
 def min_true(l: int, r: int, pred):
     """min i s.t. l <= i < r and pred(i)"""
@@ -86,9 +82,7 @@ def is_prime(n: int):
         return test_miller_rabin(n, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37])
     if n < 33170_44064_67988_73859_61981:
         return test_miller_rabin(n, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41])
-    return test_miller_rabin(n, [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47])
-
-from math import gcd
+    assert False
 
 def factorize(n: int):
     assert n >= 1
@@ -151,7 +145,6 @@ def factorize(n: int):
     dfs(n)
     return ans
 
-
 def list_divisors(pe: dict[int, int], pred):
     if not pred(1):
         return []
@@ -166,41 +159,90 @@ def list_divisors(pe: dict[int, int], pred):
                 ds.append(d)
     return ds
 
-class CombinedSolver:
-    def __init__(self, e_start: int, *solvers):
-        self.e_start = e_start
-        self.solvers = solvers
-        self.name = "-".join(f.__name__ for f in solvers)
 
-    def __call__(self, n: int):
-        e_start = self.e_start
-        solvers = self.solvers
-        ans = []
-        for e, solver in enumerate(solvers, e_start):
-            ans.extend(solver(n, e))
-        for e in range(e_start + len(solvers), n.bit_length() + 5):
-            ans.extend(solvers[-1](n, e))
-        return ans
+def r13(n: int, e: int):
+    ans = []
+    r = n
+    e2 = 1
+    while r % 2 == 0:
+        r //= 2
+        e2 += 1
+    # (r << e2) == 2 * n
+    pe_r = Counter(factorize(r))
+    for a in list_divisors(pe_r, lambda a: True):
+        b = (r // a) << e2
+        if a > b:
+            a, b = b, a
+        w, w2 = a, b
+        l = (w2 - w + 1) // 2
+        ans.append((1, l, l + w - 1))
+    ans.sort()
+    return ans
 
-def answer_power_with(solver: CombinedSolver):
-    n = int(input())
-    ans = solver(n)
-    print(len(ans))
-    for sol in ans:
-        print(*sol)
+enough_denom = [1, 2, 6, 2, 30, 2, 42, 2, 30, 2, 66, 2, 2730, 2, 6, 2, 510, 2, 798, 2, 330, 2, 138, 2, 2730, 2, 6, 2, 870, 2, 14322, 2, 510, 2, 6, 2, 1919190, 2, 6, 2, 13530, 2, 1806, 2, 690, 2, 282, 2, 46410, 2, 66, 2, 1590, 2, 798, 2, 870, 2, 354, 2, 56786730, 2, 6, 2, 510, 2, 64722, 2, 30, 2, 4686, 2, 140100870, 2, 6, 2, 30, 2, 3318, 2, 230010, 2, 498, 2, 3404310, 2, 6, 2, 61410, 2, 272118, 2, 1410, 2, 6, 2, 4501770, 2, 6, 2]
 
-def parse_range(size: int, line: str):
-    todo = set()
-    for arg in line.split(" "):
-        if arg == "-":
-            todo.update(range(size))
-        elif "-" in arg:
-            l, r = map(int, arg.split("-"))
-            l = max(l, 0)
-            r = min(r + 1, size)
-            todo.update(range(l, r))
+def re1_bs_fac(n: int, e: int, from_prev: bool):
+    pe_dn = Counter(factorize(enough_denom[e] * n))
+    divisors = list_divisors(pe_dn, lambda w: power_sum(e, 1, w + 1) <= n)
+    if from_prev:
+        divisors.sort()
+    ans = []
+    prev_l = n
+    for w in divisors:
+        def pred(l):
+            return power_sum(e, l, l + w) >= n
+        if from_prev and w != 1:
+            dl = 1
+            while dl < prev_l and pred(prev_l - dl):
+                dl <<= 1
+            l = min_true(max(0, prev_l - dl), prev_l + 1, pred)
+            prev_l = l
         else:
-            x = int(arg)
-            if 0 <= x < size:
-                todo.add(x)
-    return sorted(todo)
+            r = 1
+            while not pred(r):
+                r <<= 1
+            l = min_true(0, r, pred)
+        if power_sum(e, l, l + w) == n:
+            ans.append((e, l, l + w - 1))
+    ans.sort()
+    return ans
+
+def re0_two_pointer(n: int, e: int):
+    pows = []
+    for i in range(n + 1):
+        if i**e <= n:
+            pows.append(i**e)
+        else:
+            break
+    # pows[i] = i**e
+
+    c = len(pows)
+    ans = []
+    r = 1
+    current_sum = 0
+    for l in range(1, c):
+        while r < c and current_sum + pows[r] <= n:
+            current_sum += pows[r]
+            r += 1
+        # (r >= c or) current_sum <= n < current_sum + pows[r]
+        if current_sum == n:
+            ans.append((e, l, r - 1))
+        if l < r:
+            current_sum -= pows[l]
+    ans.sort()
+    return ans
+
+def solve(n: int):
+    ans = r13(n, 1)
+    for e in range(2, n.bit_length() + 5):
+        if e <= 3:
+            ans.extend(re1_bs_fac(n, e, True))
+        else:
+            ans.extend(re0_two_pointer(n, e))
+    return ans
+
+n = int(input())
+ans = solve(n)
+print(len(ans))
+for t in ans:
+    print(*t)
