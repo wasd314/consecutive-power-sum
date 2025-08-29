@@ -2,7 +2,7 @@ import sympy as sp
 from datetime import datetime
 from functools import cache
 from bisect import bisect_right
-# argmax d(6N, (3N)^{1/3}) を探す
+# argmax d(2N, (4N)^{1/4}) を探す
 
 primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97,]
 primorials = [1] + primes
