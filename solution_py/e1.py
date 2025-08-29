@@ -31,5 +31,7 @@ def number_of_solutions(n: int):
 solvers_ac = [
     cs(1, r13, ee.re1[2], ee.re1[2], ee.re0_two_pointer),
     cs(1, r13, ee.re1[3], ee.re1[3], ee.re0_two_pointer),
+    cs(1, r13, ee.re1[4], ee.re1[4], ee.re0_two_pointer),
+    cs(1, r13, ee.re1[5], ee.re1[5], ee.re0_two_pointer),
 ]
 

@@ -1,5 +1,6 @@
-from utility import power_sum, min_true
+from utility import power_sum, min_true, list_divisors, factorize
 import bisect as bs
+from collections import Counter
 
 def dummy(*args):
     pass
@@ -113,10 +114,41 @@ def re1_bs(only_div: bool, from_prev: bool):
     inner.__name__ = f"re1_bs_{'div' if only_div else 'all'}_{'pre' if from_prev else '1'}"
     return inner
 
+def re1_bs_fac(from_prev: bool):
+    def inner(n: int, e: int):
+        pe_dn = Counter(factorize(enough_denom[e] * n))
+        divisors = list_divisors(pe_dn, lambda w: power_sum(e, 1, w + 1) <= n)
+        if from_prev:
+            divisors.sort()
+        ans = []
+        prev_l = n
+        for w in divisors:
+            def pred(l):
+                return power_sum(e, l, l + w) >= n
+            if from_prev and w != 1:
+                dl = 1
+                while dl < prev_l and pred(prev_l - dl):
+                    dl <<= 1
+                l = min_true(max(0, prev_l - dl), prev_l + 1, pred)
+                prev_l = l
+            else:
+                r = 1
+                while not pred(r):
+                    r <<= 1
+                l = min_true(0, r, pred)
+            if power_sum(e, l, l + w) == n:
+                ans.append((e, l, l + w - 1))
+        ans.sort()
+        return ans
+    inner.__name__ = f"re1_bs_fac_{'pre' if from_prev else '1'}"
+    return inner
+
 re1_bs_all_1 = re1_bs(False, False)
 re1_bs_div_1 = re1_bs(True, False)
 re1_bs_all_pre = re1_bs(False, True)
 re1_bs_div_pre = re1_bs(True, True)
+re1_bs_fac_1 = re1_bs_fac(False)
+re1_bs_fac_pre = re1_bs_fac(False)
 
 re0 = [
     re0_two_pointer,
@@ -128,6 +160,8 @@ re1 = [
     re1_bs_div_1,
     re1_bs_all_pre,
     re1_bs_div_pre,
+    re1_bs_fac_1,
+    re1_bs_fac_pre
 ]
 
 solvers = re0 + re1
