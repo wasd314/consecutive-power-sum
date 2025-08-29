@@ -24,7 +24,7 @@ def number_of_solutions(n: int):
     # e = 1
     ans += number_of_e1_solutions(n)
     # e >= 2
-    e2_solver = cs(2, ee.re1[3], ee.re1[3], ee.re0_two_pointer)
+    e2_solver = cs(2, ee.re1[5], ee.re1[5], ee.re0_two_pointer)
     ans += len(e2_solver(n))
     return ans
 
