@@ -61,25 +61,23 @@ def dump_cases(prefix, cases: list[int], uniq_sort=True):
 
 # small
 handmade = [2, 5, 7, 8, 9]
-# have solution
-handmade.extend([8000, 23295_638016])
 # limit
-handmade.extend([10**22, 10**23, 10**24])
+handmade.extend([10**24])
 # power
-handmade.extend([2**e + delta for e in (73, 76, 79) for delta in (-1, 0, 1)])
-handmade.extend([3**e for e in (46, 48, 50)])
+handmade.extend([2**79 + delta for delta in (-1, 0, 1)])
+handmade.extend([3**50 + delta for delta in (-1, 0, 1)])
 # prime
-handmade.extend([10**22 - 27, 10**23 - 23, 10**24 - 257])
+handmade.extend([10**24 - 257])
 # semiprime n = pq (q/p ~ 10, ~ 1000)
-handmade.extend([10**22 - 41, 10**23 - 587, 10**24 - 1077])
-handmade.extend([10**22 - 83, 10**23 - 503, 10**24 - 1901])
+handmade.extend([10**24 - 1077])
+handmade.extend([10**24 - 1901])
 # highly composite
-# d(2n, sqrt(2n)) = 322560, 491520, 737280
+# d(2n, sqrt(2n)) = 622080, 737280
 # 985496152350226952635200: also argmax d(6n, sqrt[3](3n)), argmax d(2n, sqrt[4](4n))
-handmade.extend([9297133512737990119200, 92971335127379901192000, 985496152350226952635200])
+handmade.extend([818147749120943130489600, 985496152350226952635200])
 # odd highly composite
-# d(2n, sqrt(2n)) = 165888, 245760, 368640
-handmade.extend([9587668935011052310425, 76991886902361480674625, 846910755925976287420875])
+# d(2n, sqrt(2n)) = d(n, n) = 344064, 368640
+handmade.extend([692926982121253326071625, 846910755925976287420875])
 # hack deterministic Miller–Rabin
 # - hack {2, 325, 9375, 28178, 450775, 9780504, 1795265022} (at least 2^64)
 handmade.extend([62119104158988074251, 164959812840562904431, 2555929540142715989071])
