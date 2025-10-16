@@ -32,16 +32,25 @@ def gen_have_sol(min_n: int, max_n: int):
         if l <= r and min_n <= n <= max_n:
             return n
 
+all_cases = set()
+
 def gen_cases(num: int, *fs):
-    return [f() for f in fs for _ in range(num)]
+    cases = []
+    for i, f in enumerate(fs, 1):
+        while len(cases) < i * num:
+            n = f()
+            if n not in all_cases and n not in cases:
+                cases.append(n)
+    return cases
 
 def dump_cases(prefix, cases: list[int], uniq_sort=True):
     buckets = [[] for _ in range(5)]
     if uniq_sort:
         cases = sorted(
-            {n for n in cases if MIN_N <= n <= MAX_N},
+            {n for n in cases if MIN_N <= n <= MAX_N and n not in all_cases},
             key=lambda n: (e1.number_of_solutions(n), n)
         )
+    all_cases.update(cases)
     for n in cases:
         if n <= 10**18:
             buckets[1].append(n)
