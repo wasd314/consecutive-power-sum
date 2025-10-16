@@ -75,11 +75,16 @@ handmade.extend([10**24])
 # power
 handmade.extend([2**79 + delta for delta in (-1, 0, 1)])
 handmade.extend([3**50 + delta for delta in (-1, 0, 1)])
+handmade.extend([3**50 + 2**50 + delta for delta in (-1, 0, 1)])
 # prime
-handmade.extend([10**24 - 257])
-# semiprime n = pq (q/p ~ 10, ~ 1000)
-handmade.extend([10**24 - 1077])
-handmade.extend([10**24 - 1901])
+handmade.extend([10**24 - 303, 10**24 - 257])
+# semiprime n = pq
+# - q-p ~ 1e11 (p % 12 = q % 12 = 5, 7)
+handmade.extend([951249209333 * 1051249197533, 951249112027 * 1051249337563])
+# - q-p ~ 4e10
+handmade.extend([980199977837 * 1020199971893, 980199929707 * 1020200023267])
+# - p = q: n = p^2
+handmade.extend([999999995117**2, 999999886147**2])
 # highly composite
 # d(2n, sqrt(2n)) = 622080, 737280
 # 985496152350226952635200: also argmax d(6n, sqrt[3](3n)), argmax d(2n, sqrt[4](4n))
