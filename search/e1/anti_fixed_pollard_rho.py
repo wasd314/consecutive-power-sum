@@ -100,7 +100,7 @@ import math
 import random
 from functools import cache
 from collections import defaultdict
-THRESHOLD = 1000
+THRESHOLD = 4000
 
 def brent(f, x0, stop=True, proj=None):
     """
@@ -190,6 +190,7 @@ class FinFn:
         f = f2(c, n)
         dou = [[f(i) for i in range(n)]]
         self.doubling = dou
+        self.cache_cycle_pre = 0, 0
 
     def extend(self, e: int):
         be = e.bit_length()
@@ -216,6 +217,8 @@ class FinFn:
         f の前周期と周期を求める
         周期は cycle4 の出力に基づく
         """
+        if self.cache_cycle_pre != (0, 0):
+            return self.cache_cycle_pre
         period = cycle4(self.c, self.n)[1]
         f_loop = self.pow(period)
 
@@ -233,7 +236,8 @@ class FinFn:
                 ok = mi
             else:
                 ng = mi
-        return ok, period
+        self.cache_cycle_pre = ok, period
+        return self.cache_cycle_pre
 
 
 @cache
@@ -249,22 +253,41 @@ def cycle_pre(c, n, stop=False):
     f = f2(c, n)
     return brent(lambda l: [f(e) for e in l], list(range(n)), stop=stop)
 
+def composed_cycle_pre(c, ns, show=True):
+    ns = list(ns)
+    if show:
+        print(c, ns)
+    cp = [fin_fn(c, n).cycle_pre() for n in ns]
+    m = max(t[0] for t in cp)
+    l = math.lcm(*[t[1] for t in cp])
+    if show:
+        for n, t in zip(ns, cp):
+            print(n, t)
+        print(f"\t^{m} == ^{m + l}")
+    return m, l, m + l
+
 
 import sympy as sp
 sp.sieve.extend(10**7)
-c = 3
-w = 10**6
-n_mx = 10**6 * 5
+c = 1
+w = 10**5
+n_mx = 10**6
 pre = defaultdict(list)
-for b in range(4):
-    print(">", (n_mx - (b + 1) * w, n_mx - b * w))
+print(f"{c=}, {THRESHOLD=}")
+for b in range(10):
+    print(">", (n_mx - (b + 1) * w, n_mx - b * w), len(pre))
+    p: int
     for p in reversed(list(sp.primerange(n_mx - (b + 1) * w, n_mx - b * w))):
         m, l = cycle3(c, p)
         if l < THRESHOLD:
             m, l = cycle4(c, p)
-        # if l < THRESHOLD:
-        #     l = cycle_pre(c, p)[1]
-        if l < THRESHOLD:
+        if l < THRESHOLD and m == l:
+            uf = cycle_uf(c, p)
+            if uf.group_num() > 1:
+                continue
+            # if len(set(cycle_periods(c, p))) > 1:
+            #     continue
             pre[l].append(p)
             if len(pre[l]) > 1:
-                print(p, m, l, pre[l])
+                print(p, composed_cycle_pre(c, pre[l], False), pre[l])
+
