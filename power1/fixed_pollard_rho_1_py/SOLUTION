@@ -1,0 +1,5 @@
+# -*- coding: utf-8; mode: python -*-
+
+# Solution
+script_solution(src='main.py', challenge_cases=["10_handmade_08.in"])  # shebang line is required
+expected_verdicts([TLE])
