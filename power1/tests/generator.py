@@ -69,38 +69,37 @@ def dump_cases(prefix, cases: list[int], uniq_sort=True):
 
 
 # small
-handmade = [2, 5, 7, 8, 9]
+handmade = [3, 4, 5, 6, 7, 8, 9]
 # limit
-handmade.extend([10**24])
+handmade.extend([10**12])
 # power
-handmade.extend([2**79 + delta for delta in (-1, 0, 1)])
-handmade.extend([3**50 + delta for delta in (-1, 0, 1)])
-handmade.extend([3**50 + 2**50 + delta for delta in (-1, 0, 1)])
+handmade.extend([2**39 + delta for delta in (-1, 0, 1)])
+handmade.extend([3**25 + delta for delta in (-1, 0, 1)])
+handmade.extend([3**25 + 2**25 + delta for delta in (-1, 0, 1)])
 # prime
-handmade.extend([10**24 - 303, 10**24 - 257])
+handmade.extend([10**12 - 11, 10**12 - 39])
 # semiprime n = pq
-# - q-p ~ 1e11 (p % 12 = q % 12 = 5, 7)
-handmade.extend([951249209333 * 1051249197533, 951249112027 * 1051249337563])
-# - q-p ~ 4e10
-handmade.extend([980199977837 * 1020199971893, 980199929707 * 1020200023267])
+# - q-p ~ 1e5 (p % 12 = q % 12 = 5, 7)
+handmade.extend([950933 * 1050773, 935107 * 1061707])
+# - q-p ~ 4e4
+handmade.extend([974837 * 1022837, 978883 * 1018987])
 # - p = q: n = p^2
-handmade.extend([999999995117**2, 999999886147**2])
+handmade.extend([999983**2, 999979**2])
 # highly composite
-# d(2n, sqrt(2n)) = 622080, 737280
+# d(2n, sqrt(2n)) = 3456, 3600, 3840
 # 985496152350226952635200: also argmax d(6n, sqrt[3](3n)), argmax d(2n, sqrt[4](4n))
-handmade.extend([818147749120943130489600, 985496152350226952635200])
+handmade.extend([642507465600, 843291048600, 963761198400])
 # odd highly composite
-# d(2n, sqrt(2n)) = d(n, n) = 344064, 368640
-handmade.extend([692926982121253326071625, 846910755925976287420875])
-# hack deterministic Miller–Rabin
-# - hack {2, 325, 9375, 28178, 450775, 9780504, 1795265022} (at least 2^64)
-handmade.extend([62119104158988074251, 164959812840562904431, 2555929540142715989071])
-# - hack {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}
-handmade.extend([318665857834031151167461])
+# d(2n, sqrt(2n)) = d(n, n) = 1920, 2048
+handmade.extend([436704293025, 727840488375])
+# primorial p_11#
+handmade.extend([200560490130])
+# hack fixed Pollard's rho (using lambda x: x*x+c, where c = 1)
+handmade.extend([352523 * 352817])
 
 
 dump_cases("0_handmade", handmade)
 
 dump_cases("1_random", gen_cases(10, lambda: gen_have_sol(MIN_N, MAX_N)))
-dump_cases("2_random", gen_cases(10, lambda: gen_reciprocal(MIN_N, MAX_N), lambda: gen_reciprocal(10**20, MAX_N)))
+dump_cases("2_random", gen_cases(10, lambda: gen_reciprocal(MIN_N, MAX_N)))
 
