@@ -1,3 +1,10 @@
+# 参考
+
+[Consecutive Cubic Sum](https://yukicoder.me/problems/11795),
+[Consecutive Power Sum](https://yukicoder.me/problems/12100),
+[Consecutive Power Sum (Large)](https://yukicoder.me/problems/12101) はこの順におおよそ上位互換の関係にあります．
+
+
 # 問題文
 
 2つの正整数 $L, R$ に対し，$S(L, R)$ を
