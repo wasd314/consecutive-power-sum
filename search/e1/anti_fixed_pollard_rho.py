@@ -96,10 +96,11 @@ class UnionFind:
         return to_mem
 
 
+import sys
 import math
 import random
 from functools import cache
-from collections import defaultdict
+from collections import defaultdict, deque
 THRESHOLD = 4000
 
 def brent(f, x0, stop=True, proj=None):
@@ -239,6 +240,35 @@ class FinFn:
         self.cache_cycle_pre = ok, period
         return self.cache_cycle_pre
 
+    def each_cycle_pre(self):
+        """
+        各初期値からの f の前周期と周期を求める
+        """
+        f = self.doubling[0]
+        fn = self.pow(1 << self.n.bit_length() + 1)
+        ans = [(-1, -1)] * self.n
+        uf = cycle_uf(self.c, self.n)
+        for x in uf.leaders:
+            x = fn[x]
+            path = [x]
+            while f[path[-1]] != x:
+                path.append(f[path[-1]])
+            l = len(path)
+            for y in path:
+                ans[y] = 0, l
+        q = deque(set(fn))
+        f_inv = [[] for _ in range(self.n)]
+        for i, fi in enumerate(f):
+            f_inv[fi].append(i)
+        while q:
+            v = q.popleft()
+            nd = ans[v][0] + 1, ans[v][1]
+            for nv in f_inv[v]:
+                if ans[nv] == (-1, -1):
+                    ans[nv] = nd
+                    q.append(nv)
+        return ans
+
 
 @cache
 def fin_fn(c, n):
@@ -253,16 +283,21 @@ def cycle_pre(c, n, stop=False):
     f = f2(c, n)
     return brent(lambda l: [f(e) for e in l], list(range(n)), stop=stop)
 
-def composed_cycle_pre(c, ns, show=True):
+def composed_cycle_pre(c, ns, show=True, pick2=True):
     ns = list(ns)
     if show:
         print(c, ns)
-    cp = [fin_fn(c, n).cycle_pre() for n in ns]
-    m = max(t[0] for t in cp)
-    l = math.lcm(*[t[1] for t in cp])
+    cp0 = [(fin_fn(c, n).cycle_pre(), n) for n in ns]
+    cp = cp0[:]
+    if pick2:
+        cp_ = cp0[:]
+        heapq.heapify(cp_)
+        cp = [heapq.heappop(cp_) for _ in range(2)]
+    m = max(t[0][0] for t in cp)
+    l = math.lcm(*[t[0][1] for t in cp])
     if show:
-        for n, t in zip(ns, cp):
-            print(n, t)
+        for t, n in cp0:
+            print(" *"[(t, n) in cp], n, t)
         print(f"\t^{m} == ^{m + l}")
     return m, l, m + l
 
