@@ -96,7 +96,7 @@ class UnionFind:
         return to_mem
 
 
-import sys
+import heapq
 import math
 import random
 from functools import cache
@@ -137,7 +137,7 @@ def cycle1(c, n, x0):
 def cycle2(c, n, k=10):
     mx = 1
     lm = 1
-    for x0 in random.sample(range(n), k):
+    for x0 in random.sample(range(n), min(n, k)):
         l = cycle1(c, n, x0)
         mx = max(mx, l[1])
         lm = math.lcm(lm, l[1])
@@ -213,6 +213,7 @@ class FinFn:
                 g = ng
         return g
 
+    @cache
     def cycle_pre(self):
         """
         f の前周期と周期を求める
@@ -240,6 +241,7 @@ class FinFn:
         self.cache_cycle_pre = ok, period
         return self.cache_cycle_pre
 
+    @cache
     def each_cycle_pre(self):
         """
         各初期値からの f の前周期と周期を求める
@@ -304,25 +306,28 @@ def composed_cycle_pre(c, ns, show=True, pick2=True):
 
 import sympy as sp
 sp.sieve.extend(10**7)
+
+def search(c: int, n_min: int, n_max: int, w: int, pre: defaultdict):
+    print(f"{c=}, {THRESHOLD=}")
+    for n_r in range(n_max, n_min, -w):
+        n_l = max(n_r - w, n_min)
+        print(">", (n_l, n_r), len(pre))
+        p: int
+        for p in reversed(list(sp.primerange(n_l, n_r))):
+            m, l = cycle3(c, p)
+            if l < THRESHOLD:
+                m, l = cycle4(c, p)
+            if l < THRESHOLD and m == l:
+                uf = cycle_uf(c, p)
+                if uf.group_num() > 1:
+                    continue
+                # if len(set(cycle_periods(c, p))) > 1:
+                #     continue
+                pre[l].append(p)
+                if len(pre[l]) > 1:
+                    print(p, composed_cycle_pre(c, pre[l], False), pre[l])
 c = 1
 w = 10**5
 n_mx = 10**6
 pre = defaultdict(list)
-print(f"{c=}, {THRESHOLD=}")
-for b in range(10):
-    print(">", (n_mx - (b + 1) * w, n_mx - b * w), len(pre))
-    p: int
-    for p in reversed(list(sp.primerange(n_mx - (b + 1) * w, n_mx - b * w))):
-        m, l = cycle3(c, p)
-        if l < THRESHOLD:
-            m, l = cycle4(c, p)
-        if l < THRESHOLD and m == l:
-            uf = cycle_uf(c, p)
-            if uf.group_num() > 1:
-                continue
-            # if len(set(cycle_periods(c, p))) > 1:
-            #     continue
-            pre[l].append(p)
-            if len(pre[l]) > 1:
-                print(p, composed_cycle_pre(c, pre[l], False), pre[l])
 
