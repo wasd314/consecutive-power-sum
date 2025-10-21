@@ -294,7 +294,7 @@ def composed_cycle_pre(c, ns, show=True, pick2=True):
     if pick2:
         cp_ = cp0[:]
         heapq.heapify(cp_)
-        cp = [heapq.heappop(cp_) for _ in range(2)]
+        cp = [heapq.heappop(cp_) for _ in range(min(2, len(cp0)))]
     m = max(t[0][0] for t in cp)
     l = math.lcm(*[t[0][1] for t in cp])
     if show:
