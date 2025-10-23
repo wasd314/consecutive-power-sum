@@ -34,7 +34,15 @@ $L$ を $M$ 以下で全探索することを考えます．数列 $B$ が狭義
 
 なおこの方針では $B_M \sim \frac{1}{4} N^{4/3}$ は 64 bit 整数型に収まらないことがあるため，オーバーフローに注意が必要です．
 
+
 # まとめ
 
 以上のようにして本問題を全体 $\Theta(M) = \Theta(N^{1/3})$ 時間もしくは $\Theta(M \log M) = \Theta(N^{1/3} \log N)$ 時間で解くことができます．
+
+
+# 実装例
+
+- 方針1（尺取り法）：[PyPy3 (64 ms)](https://yukicoder.me/submissions/1128631)
+- 方針2（連想配列）：[PyPy3 (986 ms)](https://yukicoder.me/submissions/1128634)
+- 方針2（二分探索）：[PyPy3 (796 ms)](https://yukicoder.me/submissions/1128636)
 
