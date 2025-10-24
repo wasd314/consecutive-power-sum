@@ -1,6 +1,7 @@
 #! /usr/bin/env pypy
 
 n = int(input())
+assert 1 <= n <= 10**18
 
 # floor(n^{1/3}) + 1
 m = next(i for i in range(n + 2) if i**3 > n)
