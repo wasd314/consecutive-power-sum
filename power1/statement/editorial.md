@@ -54,3 +54,10 @@ $$
 - $E \ge 2$ の解を $\Theta( N^{1/2} + N^{1/3} + \dots + N^{1/\lfloor \log_2 N \rfloor}) = \Theta(N^{1/2})$ 時間もしくは $\Theta( N^{1/2} \log N )$ 時間で，
 
 それぞれ列挙できるため，全体でも $\Theta( N^{1/2} )$ 時間もしくは $\Theta( N^{1/2} \log N )$ 時間でこの問題を解くことができます．
+
+
+# 実装例
+
+- $\Theta( N^{1/2} )$ 時間（試し割り法，尺取り法）：[PyPy3 (150 ms)](https://yukicoder.me/submissions/1128670)
+- $\Theta( N^{1/2} )$ 時間（試し割り法，連想配列）：[PyPy3 (447 ms)](https://yukicoder.me/submissions/1128681)
+- $\Theta( N^{1/2} \log N )$ 時間（試し割り法，二分探索）：[PyPy3 (416 ms)](https://yukicoder.me/submissions/1128694)
