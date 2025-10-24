@@ -1,7 +1,7 @@
 # 参考
 
 [Consecutive Cubic Sum](https://yukicoder.me/problems/11795),
-[Consecutive Power Sum](https://yukicoder.me/problems/12100),
+[Consecutive Power Sum (Small)](https://yukicoder.me/problems/12100),
 [Consecutive Power Sum (Large)](https://yukicoder.me/problems/12101) はこの順におおよそ上位互換の関係にあります．
 
 
