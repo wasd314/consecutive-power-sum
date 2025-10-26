@@ -95,7 +95,7 @@ handmade.extend([436704293025, 727840488375])
 # primorial p_11#
 handmade.extend([200560490130])
 # hack fixed Pollard's rho (using lambda x: x*x+c, where c = 1)
-handmade.extend([352523 * 352817])
+handmade.extend([124376107291])
 
 
 dump_cases("0_handmade", handmade)
