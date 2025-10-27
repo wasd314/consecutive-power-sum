@@ -447,31 +447,20 @@ namespace wasd314
         {
             using namespace factorization;
             using solver_util::min_true;
-            const bool FROM_PREV = false;
             // enough_denom[e] * n の素因数分解
             std::map pe_dn = pe_n;
             for (u128 p : factorize(enough_denom[e])) pe_dn[p]++;
 
             std::vector divisors = list_divisors(pe_dn, [&](u128 w) { return power_sum(e, 1, w + 1) <= n; });
-            if (FROM_PREV) std::ranges::sort(divisors);
             std::vector<solution_t> ans;
             u128 prev_l = n;
             for (u128 w : divisors) {
-                u128 l;
                 auto pred = [&](u128 li) { return power_sum(e, li, li + w) >= n; };
-                if (FROM_PREV && w != 1) {
-                    u128 dl = 1;
-                    while (dl < prev_l && pred(prev_l - dl)) {
-                        dl <<= 1;
-                    }
-                    l = min_true(prev_l >= dl ? prev_l - dl : 0_u128, prev_l, pred);
-                } else {
-                    u128 r = 1;
-                    while (!pred(r)) {
-                        r <<= 1;
-                    }
-                    l = min_true(0, r, pred);
+                u128 r = 1;
+                while (!pred(r)) {
+                    r <<= 1;
                 }
+                u128 l = min_true(0, r, pred);
                 if (power_sum(e, l, l + w) == n) {
                     ans.emplace_back(e, l, l + w - 1);
                 }
