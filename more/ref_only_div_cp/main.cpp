@@ -78,6 +78,8 @@ namespace wasd314
             static constexpr int BITS_1 = std::numeric_limits<U1>::digits;
         };
 
+        // MOD_BITS bit 符号なし整数で mod を取る
+        // Montgomery reduction による
         template <int MOD_BITS>
         struct dynamic_mod {
             using pack = integer_pack<MOD_BITS>;
@@ -160,8 +162,8 @@ namespace wasd314
 
             U1 from(const U1 &x) const { return multiply_reduce(x % mod, R2); }
             U1 from(U1 &&x) const { return from(x); }
-            // U1 from_i(const I1 &x) const { return multiply_reduce(safe_mod(x), R2); }
-            // U1 from_i(I1 &&x) const { return from_i(x); }
+            U1 from_i(const I1 &x) const { return multiply_reduce(safe_mod(x), R2); }
+            U1 from_i(I1 &&x) const { return from_i(x); }
 
             U1 pow(U1 rx, U1 e) const
             {
@@ -189,6 +191,8 @@ namespace wasd314
             U1 neg(const U1 &x) const { return sub(0, x); }
         };
 
+        // 素数判定する
+        // Miller–Rabin により Θ(log n)
         bool is_prime(u128 n)
         {
             if (n < 2) return false;
@@ -239,6 +243,8 @@ namespace wasd314
             return a;
         }
 
+        // 素因数分解する
+        // Pollard's rho において gcd を round ∈ Θ(n^{1/8}) 回ごとにとり expected O(n^{1/4}) 時間
         std::vector<u128> factorize(u128 n)
         {
             if (n == 1) return {};
@@ -327,6 +333,7 @@ namespace wasd314
         }
 
         // `[d for d divides n if pred(d)]`.
+        // ただし順序は不定
         // `pred` について ∃x. (pred(d) == true  <==>  d < x) を仮定
         template <typename T>
         requires requires(T pred, u128 l) {
@@ -428,76 +435,12 @@ namespace wasd314
             return ans;
         }
 
-        // e = e の解を列挙する
-        // 尺取り法により Θ(n^{1/e}) 時間
-        std::vector<solution_t> re0_two_pointer(u128 n, int e)
-        {
-            std::vector<u128> pows;
-            for (u128 i = 0;; ++i) {
-                u128 ip = saturating_pow(i, e);
-                if (ip > n) break;
-                pows.push_back(ip);
-            }
-            int c = pows.size();
-
-            std::vector<solution_t> ans;
-            int r = 1;
-            u128 current_sum = 0;
-            for (int l = 1; l < c; ++l) {
-                while (r < c && current_sum + pows[r] <= n) {
-                    current_sum += pows[r];
-                    r++;
-                }
-                if (current_sum == n) {
-                    ans.emplace_back(e, l, r - 1);
-                }
-                if (l < r) {
-                    current_sum -= pows[l];
-                }
-            }
-            return ans;
-        }
-
         // min D s.t. W divides [D * S(e, L, L+W-1)] for all L & W.
         const int enough_denom[] = {1, 2, 6, 2, 30, 2, 42, 2, 30, 2, 66, 2, 2730, 2, 6, 2, 510, 2, 798, 2, 330, 2, 138, 2, 2730, 2, 6, 2, 870, 2, 14322, 2, 510, 2, 6, 2, 1919190, 2, 6, 2, 13530, 2, 1806, 2, 690, 2, 282, 2, 46410, 2, 66, 2, 1590, 2, 798, 2, 870, 2, 354, 2, 56786730, 2, 6, 2, 510, 2, 64722, 2, 30, 2, 4686, 2, 140100870, 2, 6, 2, 30, 2, 3318, 2, 230010, 2, 498, 2, 3404310, 2, 6, 2, 61410, 2, 272118, 2, 1410, 2, 6, 2, 4501770, 2, 6, 2};
 
-        // e = e の解を列挙する
-        // 尺取り法により Θ( n^{1/(e+1)} + d(D_e N, W_e) ) 時間
-        std::vector<solution_t> re1_bisect(u128 n, int e)
-        {
-            using solver_util::min_true;
-            const bool ONLY_DIV = false, FROM_PREV = false;
-            std::vector<solution_t> ans;
-            u128 prev_l = n;
-            for (u128 w = 1; power_sum(e, 1, w + 1) <= n; ++w) {
-                if (ONLY_DIV && (enough_denom[e] * n % w) != 0) continue;
-                u128 l;
-                auto pred = [&](u128 li) { return power_sum(e, li, li + w) >= n; };
-                if (FROM_PREV && w != 1) {
-                    u128 dl = 1;
-                    while (dl < prev_l && pred(prev_l - dl)) {
-                        dl <<= 1;
-                    }
-                    l = min_true(prev_l >= dl ? prev_l - dl : 0_u128, prev_l, pred);
-                } else {
-                    u128 r = 1;
-                    while (!pred(r)) {
-                        r <<= 1;
-                    }
-                    l = min_true(0, r, pred);
-                }
-                if (power_sum(e, l, l + w) == n) {
-                    ans.emplace_back(e, l, l + w - 1);
-                }
-                prev_l = l;
-            }
-            std::ranges::reverse(ans);
-            return ans;
-        }
-
-        // e = e の解を列挙する
+        // e = e （小さい）の解を列挙する
         // 二分探索により Θ(d(D_e N, W_e) log N) 時間
-        // n の素因数分解を使い回すべきだがさぼって再度求めている分で + expected O(n^{1/4}) 時間
+        // n の素因数分解を使い回すべきだが，さぼって再度求めている分で + expected O(n^{1/4}) 時間
         std::vector<solution_t> re1_bisect_div(u128 n, int e)
         {
             using namespace factorization;
@@ -535,23 +478,53 @@ namespace wasd314
             return ans;
         }
 
+        // e = e （大きい）の解を列挙する
+        // 尺取り法により Θ(n^{1/e}) 時間
+        std::vector<solution_t> re0_two_pointer(u128 n, int e)
+        {
+            std::vector<u128> pows;
+            for (u128 i = 0;; ++i) {
+                u128 ip = saturating_pow(i, e);
+                if (ip > n) break;
+                pows.push_back(ip);
+            }
+            int m = pows.size();
+
+            std::vector<solution_t> ans;
+            int r = 1;
+            u128 current_sum = 0;
+            for (int l = 1; l < m; ++l) {
+                while (r < m && current_sum + pows[r] <= n) {
+                    current_sum += pows[r];
+                    r++;
+                }
+                if (current_sum == n) {
+                    ans.emplace_back(e, l, r - 1);
+                }
+                current_sum -= pows[l];
+            }
+            return ans;
+        }
+
         void solve(u128 n)
         {
             using namespace io;
-            using namespace factorization;
             std::vector<std::vector<solution_t>> answers;
             answers.push_back(r13_pe(n, 1));
-            answers.push_back(re1_bisect_div(n, 2));
-            answers.push_back(re1_bisect_div(n, 3));
-            // answers.push_back(re1_bisect_div(n, 4));
-            for (int e = 4; (n >> e) != 0; ++e) {
-                answers.push_back(re0_two_pointer(n, e));
+            for (int e = 2; (n >> e) != 0; ++e) {
+                if (e <= 3) {
+                    answers.push_back(re1_bisect_div(n, e));
+                } else {
+                    answers.push_back(re0_two_pointer(n, e));
+                }
             }
+
             std::vector<solution_t> ans;
             for (auto &ans_e : answers) {
                 std::ranges::sort(ans_e);
                 ans.insert(ans.end(), ans_e.begin(), ans_e.end());
             }
+
             std::stringstream buf;
             buf << ans.size() << '\n';
             for (auto [e, l, r] : ans) {
@@ -568,5 +541,6 @@ int main()
     using namespace wasd314::io;
     u128 n;
     std::cin >> n;
+    assert(2_u128 <= n && n <= 1'000'000'000'000'000'000'000'000_u128);
     wasd314::solver::solve(n);
 }
