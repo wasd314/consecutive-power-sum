@@ -416,7 +416,7 @@ namespace wasd314
         using solution_t = std::tuple<int, u128, u128>;
 
         // e = 1 の解を列挙する
-        // 素因数分解を除いて d(2n, (2n)^{1/2}) ) 時間
+        // 素因数分解を除いて d(2n, (2n)^{1/2}) 時間
         std::vector<solution_t> r13_pe(u128 n, int, const std::map<u128, int> &pe_n)
         {
             using namespace factorization;
@@ -442,7 +442,7 @@ namespace wasd314
         const int enough_denom[] = {1, 2, 6, 2, 30, 2, 42, 2, 30, 2, 66, 2, 2730, 2, 6, 2, 510, 2, 798, 2, 330, 2, 138, 2, 2730, 2, 6, 2, 870, 2, 14322, 2, 510, 2, 6, 2, 1919190, 2, 6, 2, 13530, 2, 1806, 2, 690, 2, 282, 2, 46410, 2, 66, 2, 1590, 2, 798, 2, 870, 2, 354, 2, 56786730, 2, 6, 2, 510, 2, 64722, 2, 30, 2, 4686, 2, 140100870, 2, 6, 2, 30, 2, 3318, 2, 230010, 2, 498, 2, 3404310, 2, 6, 2, 61410, 2, 272118, 2, 1410, 2, 6, 2, 4501770, 2, 6, 2};
 
         // e = e （小さい）の解を列挙する
-        // 二分探索により Θ(d(D_e N, W_e) log N) 時間
+        // 二分探索により，素因数分解を除いて Θ(d(D_e N, W_e) log N) 時間
         std::vector<solution_t> re1_bisect_div(u128 n, int e, const std::map<u128, int> &pe_n)
         {
             using namespace factorization;
@@ -453,7 +453,6 @@ namespace wasd314
 
             std::vector divisors = list_divisors(pe_dn, [&](u128 w) { return power_sum(e, 1, w + 1) <= n; });
             std::vector<solution_t> ans;
-            u128 prev_l = n;
             for (u128 w : divisors) {
                 auto pred = [&](u128 li) { return power_sum(e, li, li + w) >= n; };
                 u128 r = 1;
@@ -464,7 +463,6 @@ namespace wasd314
                 if (power_sum(e, l, l + w) == n) {
                     ans.emplace_back(e, l, l + w - 1);
                 }
-                prev_l = l;
             }
             std::ranges::sort(ans);
             return ans;
