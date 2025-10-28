@@ -58,6 +58,6 @@ $$
 
 # 実装例
 
-- $\Theta( N^{1/2} )$ 時間（試し割り法，尺取り法）：[PyPy3 (150 ms)](https://yukicoder.me/submissions/1128670)
+- $\Theta( N^{1/2} )$ 時間（試し割り法，尺取り法）：[PyPy3 (150 ms)](https://yukicoder.me/submissions/1128670)，[C++23 (28 ms)](https://yukicoder.me/submissions/1129607)
 - $\Theta( N^{1/2} )$ 時間（試し割り法，連想配列）：[PyPy3 (447 ms)](https://yukicoder.me/submissions/1128681)
 - $\Theta( N^{1/2} \log N )$ 時間（試し割り法，二分探索）：[PyPy3 (416 ms)](https://yukicoder.me/submissions/1128694)
