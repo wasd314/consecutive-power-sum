@@ -42,6 +42,6 @@ $L$ を $M$ 以下で全探索することを考えます．数列 $B$ が狭義
 
 # 実装例
 
-- 方針1（尺取り法）：[PyPy3 (68 ms)](https://yukicoder.me/submissions/1128647)，[C++23 (4 ms)](https://yukicoder.me/submissions/1129599)
-- 方針2（連想配列）：[PyPy3 (1003 ms)](https://yukicoder.me/submissions/1128648)
-- 方針2（二分探索）：[PyPy3 (916 ms)](https://yukicoder.me/submissions/1128649)
+- $\Theta( N^{1/3} )$ 時間（尺取り法）：[PyPy3 (68 ms)](https://yukicoder.me/submissions/1128647)，[C++23 (4 ms)](https://yukicoder.me/submissions/1129599)
+- $\Theta( N^{1/3} )$ 時間（連想配列）：[PyPy3 (1003 ms)](https://yukicoder.me/submissions/1128648)
+- $\Theta( N^{1/3} \log N )$ 時間（二分探索）：[PyPy3 (916 ms)](https://yukicoder.me/submissions/1128649)
