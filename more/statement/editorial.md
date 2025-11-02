@@ -201,7 +201,7 @@ Pollard の ρ 法で正整数 $N$ を素因数分解する際には，主に次
 
 ただし前処理により $N, n$ が $3$ 以上の奇数の場合にできれば十分です．
 
-1つ目については，128 bit 整数型で Montgomery Reduction を利用すると実現できます．単純な実装では 256 bit 整数型が必要そうですが，$a, b$ をそれぞれ 64 bit 整数2つに分割して筆算をする要領で回避できます（参考：[64 bit 整数型での実装例](https://yu212.hatenablog.com/entry/2023/12/14/203400)）．
+1つ目については，128 bit 整数型で Montgomery Reduction を利用すると実現できます．単純な実装では 256 bit 整数型が必要そうですが，$a, b$ をそれぞれ 64 bit 整数2つに分割して筆算をする要領で回避できます<sup> [1]</sup>．
 
 2つ目については，Miller–Rabin 素数判定法を用いることにします．Miller–Rabin 素数判定法は一般には確率的なアルゴリズムですが，$n$ の上限が分かっている場合にはテストする底の集合をうまく選ぶことで決定的なアルゴリズムとしても使えます．より形式的には，
 
@@ -217,7 +217,7 @@ $$
     \big[ \, \text{$n$ は素数} \iff \text{$n$ は $A$-sprp} \, \big]
 $$
 
-が証明されているならば，$A$ の各元を底としてテストするだけで $U$ 未満の奇数 $n$ に対しては正しく決定的に素数判定ができることが保証される，ということです．中でも有用な（ $\# A$ は小さいが $U$ が大きい）$U$ と $A$ の組が多数報告されています（参考：[Wikipedia](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Testing_against_small_sets_of_bases)，[SPRP bases](https://miller-rabin.appspot.com/)）．ここでは次の3組を紹介します（参考：[OEIS A014233](https://oeis.org/A014233)，[論文1](https://doi.org/10.1090/mcom/3134)）．
+が証明されているならば，$A$ の各元を底としてテストするだけで $U$ 未満の奇数 $n$ に対しては正しく決定的に素数判定ができることが保証される，ということです．中でも有用な（ $\# A$ は小さいが $U$ が大きい）$U$ と $A$ の組が多数報告されています<sup> [2], [3]</sup>．ここでは次の3組を紹介します<sup> [4], [5]</sup>．
 
 <!--
 if (n < 18446744073709551616_u128) return test_miller_rabin({2, 325, 9375, 28178, 450775, 9780504, 1795265022});
@@ -230,4 +230,19 @@ if (n < 3317044064679887385961981_u128) return test_miller_rabin({2, 3, 5, 7, 11
 
 特に最後の3組目について $U_3 > 10^{24}$ なので，本問題の制約下では $A_3$-sprp 判定をすれば十分とわかります．
 
-なお，一般に $A$ の保証範囲外には $A$-sprp である（テストを全て通過してしまう）合成数が存在します．実際上記の3組のうち初めの2組については $U_1, U_2 < 10^{24}$ であり，各々に対して反例となる合成数がテストケースに含まれています（参考：[論文1](https://doi.org/10.1090/mcom/3134)，[論文2](https://doi.org/10.1007/s40993-024-00598-3)）．
+なお，一般に $A$ の保証範囲外には $A$-sprp である（テストを全て通過してしまう）合成数が存在します．実際上記の3組のうち初めの2組については $U_1, U_2 < 10^{24}$ であり，各々に対して反例となる合成数がテストケースに含まれています<sup> [5], [6]</sup>．
+
+
+### 参考文献
+
+[1] [128bit 整数型を使わない 64bit modint - Yu_212’s diary](https://yu212.hatenablog.com/entry/2023/12/14/203400)
+
+[2] [Miller–Rabin primality test - Wikipedia](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Testing_against_small_sets_of_bases)
+
+[3] [SPRP bases](https://miller-rabin.appspot.com/)
+
+[4] OEIS Foundation Inc. (2025), Smallest odd number for which Miller-Rabin primality test on bases <= n-th prime does not reveal compositeness., Entry A014233 in The On-Line Encyclopedia of Integer Sequences, https://oeis.org/A014233.
+
+[5] Sorenson, J., Webster, J. (2016). Strong pseudoprimes to twelve prime bases. _Mathematics of Computation_, *86*(304), 985–1003. https://doi.org/10.1090/mcom/3134
+
+[6] Shallue, A., Webster, J. (2024). Advances in tabulating Carmichael numbers. _Research in Number Theory_, *11*(1). https://doi.org/10.1007/s40993-024-00598-3
