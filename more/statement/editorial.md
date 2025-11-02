@@ -232,7 +232,7 @@ if (n < 3317044064679887385961981_u128) return test_miller_rabin({2, 3, 5, 7, 11
 
 特に最後の3組目について $U_3 > 10^{24}$ なので，本問題の制約下では $A_3$-sprp 判定をすれば十分とわかります．
 
-なお，一般に $A$ の保証範囲外には $A$-sprp である（テストを全て通過してしまう）合成数が存在します．実際上記の3組のうち初めの2組については $U_1, U_2 < 10^{24}$ であり，各々に対して反例となる合成数がテストケースに含まれています<sup> [5], [6]</sup>．
+なお，一般に $A$ の保証範囲外には $A$-sprp である（テストを全て通過してしまう）合成数が存在します<sup> [6:Theorem 1]</sup>．実際上記の3組のうち初めの2組については $U_1, U_2 < 10^{24}$ であり，各々に対して反例となる合成数がテストケースに含まれています<sup> [5], [7]</sup>．
 
 
 ### 参考文献
@@ -243,8 +243,14 @@ if (n < 3317044064679887385961981_u128) return test_miller_rabin({2, 3, 5, 7, 11
 
 [3] [SPRP bases](https://miller-rabin.appspot.com/)
 
-[4] OEIS Foundation Inc. (2025), Smallest odd number for which Miller-Rabin primality test on bases <= n-th prime does not reveal compositeness., Entry A014233 in The On-Line Encyclopedia of Integer Sequences, https://oeis.org/A014233.
+[4] OEIS Foundation Inc. (2025), Smallest odd number for which Miller-Rabin primality test on bases <= n-th prime does not reveal compositeness, Entry A014233 in The On-Line Encyclopedia of Integer Sequences, [https://oeis.org/A014233](https://oeis.org/A014233).
+- $A_3$-sprp 判定の正当性の参考にしました．
 
-[5] Sorenson, J., Webster, J. (2016). Strong pseudoprimes to twelve prime bases. _Mathematics of Computation_, *86*(304), 985–1003. https://doi.org/10.1090/mcom/3134
+[5] Sorenson, J., Webster, J. (2016). Strong pseudoprimes to twelve prime bases. _Mathematics of Computation_, *86*(304), 985–1003. [https://doi.org/10.1090/mcom/3134](https://doi.org/10.1090/mcom/3134)
+- [4] にリンクがあった論文です．$A_2$-sprp，$A_3$-sprp 判定の正当性や $A_2$-sprp である合成数の参考にしました．
 
-[6] Shallue, A., Webster, J. (2024). Advances in tabulating Carmichael numbers. _Research in Number Theory_, *11*(1). https://doi.org/10.1007/s40993-024-00598-3
+[6] Alford, W. R., Granville, A., & Pomerance, C. (1994). On the difficulty of finding reliable witnesses. In Lecture Notes in Computer Science (pp. 1–16). Springer Berlin Heidelberg. [https://doi.org/10.1007/3-540-58691-1_36](https://doi.org/10.1007/3-540-58691-1_36)
+- [https://math.dartmouth.edu/~carlp/PDF/reliable.pdf](https://math.dartmouth.edu/~carlp/PDF/reliable.pdf) でも公開されています．Theorem 1 で $(\log n)^{1/3(\log \log \log n)}$ は狭義単調増加するので，任意の有限集合 $A$ に対して $A$-sprp である合成数 $n$ の存在が（$n$ の大きさはさておき）示せます．
+
+[7] Shallue, A., Webster, J. (2024). Advances in tabulating Carmichael numbers. _Research in Number Theory_, *11*(1). [https://doi.org/10.1007/s40993-024-00598-3](https://doi.org/10.1007/s40993-024-00598-3)
+- $A_1$-sprp である合成数の参考にしました．
