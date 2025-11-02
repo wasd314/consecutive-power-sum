@@ -30,7 +30,7 @@ B_R - B_{L-1} = N
 $$
 と表せます．
 
-$L$ を $M$ 以下で全探索することを考えます．数列 $B$ が狭義単調増加することから，各 $L$ に対して $B_R = B_{L-1} + N$ なる $R$ は高々1つであり，そのような $R$ は $B_i$ から $i$ を逆引きする連想配列を用意しておくか数列 $B$ 上で二分探索することで $\Theta(1)$ 時間もしくは $\Theta(\log M)$ 時間などで求められます．よって全体 $\Theta(M)$ 時間もしくは $\Theta(M \log M)$ 時間などで解を列挙できます．
+$L$ を $M$ 以下で全探索することを考えます．数列 $B$ が狭義単調増加することから，各 $L$ に対して $B_R = B_{L-1} + N$ なる $R$ は高々 1 つであり，そのような $R$ は $B_i$ から $i$ を逆引きする連想配列を用意しておくか数列 $B$ 上で二分探索することで $\Theta(1)$ 時間もしくは $\Theta(\log M)$ 時間で求められます．よって全体 $\Theta(M)$ 時間もしくは $\Theta(M \log M)$ 時間で解を列挙できます．
 
 なおこの方針では $B_M \sim \frac{1}{4} N^{4/3}$ は 64 bit 整数型に収まらないことがあるため，オーバーフローに注意が必要です．
 
@@ -42,6 +42,6 @@ $L$ を $M$ 以下で全探索することを考えます．数列 $B$ が狭義
 
 # 実装例
 
-- $\Theta( N^{1/3} )$ 時間（尺取り法）：[PyPy3 (68 ms)](https://yukicoder.me/submissions/1128647)，[C++23 (4 ms)](https://yukicoder.me/submissions/1129599)
-- $\Theta( N^{1/3} )$ 時間（連想配列）：[PyPy3 (1003 ms)](https://yukicoder.me/submissions/1128648)
-- $\Theta( N^{1/3} \log N )$ 時間（二分探索）：[PyPy3 (916 ms)](https://yukicoder.me/submissions/1128649)
+- $\Theta( N^{1/3} )$ 時間（尺取り法）：[PyPy3 (59 ms)](https://yukicoder.me/submissions/1128647)，[C++23 (4 ms)](https://yukicoder.me/submissions/1129599)
+- $\Theta( N^{1/3} )$ 時間（連想配列）：[PyPy3 (1044 ms)](https://yukicoder.me/submissions/1128648)
+- $\Theta( N^{1/3} \log N )$ 時間（二分探索）：[PyPy3 (893 ms)](https://yukicoder.me/submissions/1128649)
