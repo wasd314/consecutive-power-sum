@@ -1,5 +1,5 @@
 # -*- coding: utf-8; mode: python -*-
 
 # Solution
-cxx_solution(src='main.cpp', flags=["-std=c++2b"], challenge_cases=[])  # -std=c++11 -O2 as default
-expected_verdicts([AC, WA])
+cxx_solution(src='main.cpp', flags=["-std=c++2b"], challenge_cases=["40_handmade_03.in"])  # -std=c++11 -O2 as default
+expected_verdicts([WA])

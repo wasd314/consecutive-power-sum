@@ -27,12 +27,12 @@ rime test .
 ### 問題文・解説文の生成
 
 ```sh
-cat ./statement/statement.md | sed -E -e 's/\\([,;{}])/\\\\\1/g' | yukicoder-md -t | sed -e 's/<h5>/<h5 class="shadow">/g' | pbcopy
-cat ./statement/editorial.md | sed -E -e 's/\\([,;{}])/\\\\\1/g' | yukicoder-md -t | sed -e 's/<h5>/<h5 class="shadow">/g' | pbcopy
+cat ./statement/statement.md | sed -E -e 's/\\([,;{}#])/\\\\\1/g' | yukicoder-md -t | sed -e 's/<h5>/<h5 class="shadow">/g' | pbcopy
+cat ./statement/editorial.md | sed -E -e 's/\\([,;{}#])/\\\\\1/g' | yukicoder-md -t | sed -e 's/<h5>/<h5 class="shadow">/g' | pbcopy
 ```
 
 ここで
-- `sed -E -e 's/\\([,;{}])/\\\\\1/g'` は数式中の `\,` などに含まれる `\` を重ねてエスケープします
+- `sed -E -e 's/\\([,;{}#])/\\\\\1/g'` は数式中の `\,` などに含まれる `\` を重ねてエスケープします
 - `sed -e 's/<h5>/<h5 class=\"shadow\">/g'` は Markdown ファイルにおけるレベル2見出し `##` の装飾をします
 
 ### yukicoder 向けテストケースファイルの生成
